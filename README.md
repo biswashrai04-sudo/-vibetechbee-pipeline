@@ -1,50 +1,116 @@
-# VibeTechBee — Multi-Agent Content Pipeline
+<div align="center">
 
-A daily multi-agent content creation pipeline for social media (Instagram, LinkedIn, X, Facebook) built on **opencode** as the AI runtime. 11 specialized agents orchestrated across 7 waves to research, strategize, write, and deliver platform-optimized posts branded as **VibeTechBee**.
+<img src="https://raw.githubusercontent.com/biswashrai04-sudo/vibetechbee-pipeline/main/.github/bee-logo.png" width="80" style="display:none" onerror="this.style.display='none'"/>
 
-## Architecture
+# 🐝 VibeTechBee
 
-```
-opencode (AI Runtime)
-  │  task() — spawn subagents
-  ├─ Wave 1: Trend Discovery  (scanner + selector)
-  ├─ Wave 2: Verification     (verifier → fallback → researcher)
-  ├─ Wave 3: Strategy         (matrix → tactical)
-  ├─ Wave 4: Content Writing  (4 parallel writers)
-  ├─ Wave 5: Image Generation (Flux via OpenRouter)
-  ├─ Wave 6: Package & Deliver (checklist → calendar)
-  └─ Wave 7: Human Approval Gate
-       └─ ./social-posts/YYYY-MM-DD-topic/
-```
+**11-Agent Social Media Content Pipeline**
 
-## Project Structure
+*Research. Strategize. Write. Deliver. Daily.*
 
-```
-vibetechbee-pipeline/
-├── social-posting.skill.md       ← orchestrator
-├── commands/                     ← /social-post daily & friends
-├── agents/                       ← 11 agent definitions
-├── brain/BRAND_GUIDE.md          ← brand identity
-├── social-posts/                 ← daily output
-├── architecture.html             ← this page
-└── blueprint.html                ← visual pipeline blueprint
-```
+[View Architecture](architecture.html) · [Blueprint](blueprint.html) · [opencode](https://opencode.ai)
 
-## Usage
-
-1. Symlink `commands/` to `~/.config/opencode/command/`
-2. Run `/social-post daily` in opencode
-3. Review `06-CHECKLIST.md`
-4. Copy-paste to platforms
-
-## Stack
-
-- **Runtime**: opencode
-- **Orchestration**: task() subagent spawning
-- **Trends**: webfetch (X, Reddit, Google Trends, Product Hunt, TechCrunch)
-- **Images**: Flux 1.1 Pro via OpenRouter
-- **Brand**: VibeTechBee — Navy Blue · Champagne Gold · Dark Mode
+</div>
 
 ---
 
-Built for opencode · 11 agents · 7 waves · 4 platforms · max engagement
+## What is VibeTechBee?
+
+A daily multi-agent content creation pipeline that generates ready-to-post social media content across **4 platforms** — Instagram, LinkedIn, X, and Facebook. 11 specialized AI agents work across 7 sequential waves to scan trends, research topics, craft strategy, write platform-optimized copy, generate images, and package everything into a ready-to-review checklist.
+
+Everything runs on **opencode** as the AI runtime. Nothing auto-posts — you always have the final say.
+
+---
+
+## Agents & Waves
+
+| Wave | Phase | Agents | Parallel |
+|------|-------|--------|----------|
+| 0 | Brand Setup | Brand Strategist | — |
+| 1 | Trend Discovery | Trend Scanner, Topic Selector | ✓ |
+| 2 | Verification & Research | Freshness Verifier, Evergreen Fallback, Researcher | ✓ |
+| 3 | Strategy | Matrix strategist → Tactical strategist | Sequential |
+| 4 | Content Writing | IG Writer, LI Writer, X Writer, FB Writer | ✓ (4x) |
+| 5 | Image Generation | Flux Visual Creator | — |
+| 6 | Package & Deliver | Delivery Manager | — |
+| 7 | Human Approval | *You* | — |
+
+---
+
+## Platforms & Engagement Signals
+
+Each writer is tuned to its platform's #1 algorithmic signal:
+
+| Platform | #1 Signal | Tone | Format |
+|----------|-----------|------|--------|
+| 📸 Instagram | DM Shares | Energetic, visual-first | Carousel caption + hashtags |
+| 💼 LinkedIn | Dwell Time | Authoritative, data-backed | Long-form thought leadership |
+| 🐦 X/Twitter | Replies | Punchy, opinionated | Tweet or thread (≤280 chars) |
+| 👥 Facebook | Meaningful Interactions | Friendly, community-driven | Discussion post |
+
+---
+
+## Weekly Niche Rotation
+
+| Day | Niche | Content Pillar |
+|-----|-------|---------------|
+| Mon | Tech | News (30%) |
+| Tue | AI for Productivity | Educational (40%) |
+| Wed | Apps | Educational (40%) |
+| Thu | Business | Educational (40%) |
+| Fri | Gadgets / Mobile | Entertainment (20%) |
+| Sat | Real Estate | Educational (40%) |
+| Sun | Wildcard (Best of Week) | Entertainment (20%) |
+
+---
+
+## What You Get Each Day
+
+```
+social-posts/2026-07-16-ai-productivity-tools/
+├── 01-TREND.md           Raw scan results from 5+ sources
+├── 02-RESEARCH.md        Deep research + competitor analysis
+├── 03-STRATEGY.md        Core message + platform angles
+├── 04-CONTENT/
+│   ├── instagram.md      Caption + hashtags + alt text
+│   ├── linkedin.md        Thought leadership post
+│   ├── x.md              Tweet/thread (char audited)
+│   └── facebook.md        Community post (trigger-free)
+├── 05-IMAGES/
+│   ├── prompts.md         Flux image prompts
+│   └── *.png              Platform-sized images
+└── 06-CHECKLIST.md        Previews + optimal posting order
+```
+
+---
+
+## Stack
+
+- **Runtime**: [opencode](https://opencode.ai)
+- **Orchestration**: `task()` subagent spawning (11 agents)
+- **Trend Intelligence**: `webfetch` — X, Reddit, Google Trends, Product Hunt, TechCrunch, Google News
+- **Image Generation**: Flux 1.1 Pro via OpenRouter (falls back to prompt files)
+- **Brand**: VibeTechBee — Navy Blue `#061028` · Champagne Gold `#f5e6b8`
+
+---
+
+## Quickstart
+
+```bash
+# 1. Symlink commands for global access
+ln -s commands/* ~/.config/opencode/command/
+
+# 2. Run in opencode
+/social-post daily
+
+# 3. Review & publish
+open social-posts/YYYY-MM-DD-topic/06-CHECKLIST.md
+```
+
+---
+
+<div align="center">
+
+**Built for opencode · 11 agents · 7 waves · 4 platforms · max engagement**
+
+</div>
