@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VibeTechBee — Multi-Agent Pipeline Architecture</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #061028;
+    --bg2: #0a1a3a;
+    --card: #0f2040;
+    --card-border: #1a3058;
+    --gold: #d4af37;
+    --gold-light: #f5e6b8;
+    --gold-muted: #c9a84c;
+    --amber: #f59e0b;
+    --green: #22c55e;
+    --red: #ef4444;
+    --text: #f5e6b8;
+    --text-muted: #d4c48a;
+    --gradient: linear-gradient(135deg, #d4af37, #f5e6b8);
+    --gradient2: linear-gradient(135deg, #b8960f, #e8d5a3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .toolbar {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+  }
+  .toolbar button {
+    background: var(--gradient);
+    border: none;
+    color: #061028;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .toolbar button:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(212, 175, 55, 0.5); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ───── Header ───── */
+  .header { text-align: center; padding: 60px 0 40px; position: relative; }
+  .header::after {
+    content: ''; position: absolute; bottom: 0; left: 50%;
+    transform: translateX(-50%); width: 200px; height: 2px;
+    background: var(--gradient); border-radius: 2px;
+  }
+  .logo { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .logo-icon {
+    width: 48px; height: 48px; background: var(--gradient); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+  }
+  .header h1 {
+    font-size: 36px; font-weight: 800;
+    background: var(--gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .subtitle { font-size: 16px; color: var(--text-muted); margin-top: 8px; }
+  .badge-row { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .badge {
+    padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 600;
+    background: var(--card); border: 1px solid var(--card-border); color: var(--text-muted);
+  }
+  .badge.gold { border-color: var(--gold); color: var(--gold); }
+  .badge.light { border-color: var(--gold-light); color: var(--gold-light); }
+  .badge.amber { border-color: var(--amber); color: var(--amber); }
+
+  /* ───── Stats ───── */
+  .stats {
+    display: flex; justify-content: center; gap: 40px; padding: 24px 0;
+    flex-wrap: wrap; border-bottom: 1px solid var(--card-border); margin-bottom: 40px;
+  }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 800; color: var(--gold); }
+  .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+  /* ───── Section ───── */
+  .section { margin-bottom: 48px; }
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .section-header .tag {
+    width: 36px; height: 36px; border-radius: 8px; background: var(--gradient);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px; color: #061028; flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 20px; font-weight: 700; color: var(--gold-light); }
+  .section-header .desc { font-size: 12px; color: var(--text-muted); margin-left: auto; text-align: right; }
+
+  /* ───── Cards ───── */
+  .cards { display: grid; gap: 14px; }
+  .cards-2 { grid-template-columns: 1fr 1fr; }
+  .cards-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cards-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 768px) {
+    .cards-2, .cards-3, .cards-4 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--card); border: 1px solid var(--card-border); border-radius: 10px;
+    padding: 18px; position: relative;
+  }
+  .card:hover { border-color: var(--gold); }
+
+  .card-icon { font-size: 22px; margin-bottom: 6px; }
+  .card-title { font-size: 14px; font-weight: 700; color: var(--gold-light); margin-bottom: 2px; }
+  .card-role { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+  .card-desc { font-size: 12px; color: var(--text); line-height: 1.5; }
+  .card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
+  .card-tag {
+    padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 500;
+    background: rgba(212, 175, 55, 0.12); color: var(--gold);
+  }
+  .card-tag.green { background: rgba(34, 197, 94, 0.12); color: var(--green); }
+  .card-tag.red { background: rgba(239, 68, 68, 0.12); color: var(--red); }
+  .card-tag.amber { background: rgba(245, 158, 11, 0.12); color: var(--amber); }
+  .card-tag.light { background: rgba(245, 230, 184, 0.12); color: var(--gold-light); }
+
+  .card-wave {
+    border-left: 3px solid var(--gold);
+  }
+
+  /* ───── Flow Diagram ───── */
+  .flow-diagram {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 30px;
+    overflow-x: auto;
+  }
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .flow-row:last-child { margin-bottom: 0; }
+  .flow-box {
+    background: var(--bg2);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    text-align: center;
+    min-width: 110px;
+    position: relative;
+  }
+  .flow-box .fb-title { font-size: 12px; font-weight: 700; color: var(--gold-light); }
+  .flow-box .fb-sub { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+  .flow-box.server {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(245, 230, 184, 0.08));
+    border-color: var(--gold);
+    min-width: 140px;
+  }
+  .flow-box.output {
+    border-color: var(--green);
+  }
+  .flow-arrow {
+    font-size: 16px;
+    color: var(--gold-muted);
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+  .flow-arrow.down {
+    display: block;
+    text-align: center;
+    padding: 4px 0;
+    font-size: 14px;
+  }
+  .flow-bracket {
+    display: flex;
+    gap: 6px;
+    padding: 6px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .flow-sub {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  .flow-sub strong { color: var(--gold-light); display: block; font-size: 11px; }
+
+  .flow-label {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: #061028;
+    padding: 1px 10px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ───── Opencode Server Box ───── */
+  .server-box {
+    text-align: center;
+    padding: 20px;
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(245, 230, 184, 0.05));
+    margin-bottom: 20px;
+  }
+  .server-box .s-title { font-size: 18px; font-weight: 800; color: var(--gold); }
+  .server-box .s-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .server-box .s-cmds {
+    display: flex; justify-content: center; gap: 12px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .server-box .s-cmd {
+    background: var(--bg2);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--gold-light);
+  }
+
+  /* ───── Wave Detail ───── */
+  .wave-list { display: flex; flex-direction: column; gap: 16px; }
+  .wave-item {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+    border-left: 3px solid var(--gold);
+  }
+  .wave-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .wave-num {
+    width: 28px; height: 28px; border-radius: 6px; background: var(--gradient);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 12px; color: #061028; flex-shrink: 0;
+  }
+  .wave-name { font-size: 15px; font-weight: 700; color: var(--gold-light); }
+  .wave-tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 4px;
+    background: rgba(212, 175, 55, 0.12); color: var(--gold); margin-left: auto;
+  }
+  .wave-agents {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .wave-agent {
+    background: var(--bg2);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 10px;
+  }
+  .wa-name { font-size: 12px; font-weight: 700; color: var(--gold-light); }
+  .wa-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .wa-tools { font-size: 10px; color: var(--gold-muted); margin-top: 4px; }
+
+  /* ───── Project Tree ───── */
+  .tree {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.9;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    color: var(--text);
+  }
+  .tree .root { color: var(--gold-light); font-weight: 700; }
+  .tree .folder { color: var(--gold); }
+  .tree .file { color: var(--text); }
+  .tree .comment { color: var(--text-muted); font-style: italic; }
+  .tree .highlight { color: var(--amber); }
+  .tree .arrow { color: var(--gold-muted); }
+
+  /* ───── Agent Table ───── */
+  .agent-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .agent-table th {
+    background: var(--bg2);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .agent-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text);
+  }
+  .agent-table tr:last-child td { border-bottom: none; }
+  .agent-table tr:hover td { background: rgba(212, 175, 55, 0.06); }
+
+  /* ───── How It Works ───── */
+  .steps { display: flex; flex-direction: column; gap: 12px; }
+  .step {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: 10px; padding: 16px;
+  }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 8px; background: var(--gradient);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 14px; color: #061028; flex-shrink: 0;
+  }
+  .step-content h3 { font-size: 14px; font-weight: 700; color: var(--gold-light); margin-bottom: 2px; }
+  .step-content p { font-size: 12px; color: var(--text-muted); }
+
+  /* ───── Footer ───── */
+  .footer { text-align: center; padding: 40px 0 20px; border-top: 1px solid var(--card-border); margin-top: 40px; }
+  .footer p { font-size: 12px; color: var(--text-muted); }
+
+  /* ═══════════════════ ANIMATIONS ═══════════════════ */
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.15), 0 0 40px rgba(212, 175, 55, 0.05); }
+      50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.3), 0 0 60px rgba(212, 175, 55, 0.1); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes shimmer-text {
+      0% { background-position: -300% center; }
+      100% { background-position: 300% center; }
+    }
+    @keyframes badge-pop {
+      0% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes lineGrow {
+      from { width: 0; }
+      to { width: 200px; }
+    }
+
+    .bee-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    .shimmer {
+      background-size: 200% auto !important;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    .pulse-glow {
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+    .shimmer-text {
+      background-size: 300% auto !important;
+      animation: shimmer-text 4s ease-in-out infinite;
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .animate-on-scroll.fade-only {
+      transform: none;
+    }
+    .animate-on-scroll.visible.fade-only {
+      opacity: 1;
+    }
+
+    .badge-row .badge {
+      animation: badge-pop 0.4s ease-out backwards;
+    }
+    .badge-row .badge:nth-child(1) { animation-delay: 0.1s; }
+    .badge-row .badge:nth-child(2) { animation-delay: 0.2s; }
+    .badge-row .badge:nth-child(3) { animation-delay: 0.3s; }
+    .badge-row .badge:nth-child(4) { animation-delay: 0.4s; }
+    .badge-row .badge:nth-child(5) { animation-delay: 0.5s; }
+
+    .stat-item {
+      animation: countUp 0.5s ease-out backwards;
+    }
+    .stat-item:nth-child(1) { animation-delay: 0.15s; }
+    .stat-item:nth-child(2) { animation-delay: 0.25s; }
+    .stat-item:nth-child(3) { animation-delay: 0.35s; }
+    .stat-item:nth-child(4) { animation-delay: 0.45s; }
+    .stat-item:nth-child(5) { animation-delay: 0.55s; }
+    .stat-item:nth-child(6) { animation-delay: 0.65s; }
+
+    .wave-item {
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .wave-item:hover {
+      transform: translateY(-3px);
+      border-color: var(--gold);
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.1);
+    }
+
+    .card {
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.12);
+    }
+
+    .wave-item {
+      animation: fadeInUp 0.5s ease-out backwards;
+    }
+    .wave-item:nth-child(1) { animation-delay: 0.0s; }
+    .wave-item:nth-child(2) { animation-delay: 0.1s; }
+    .wave-item:nth-child(3) { animation-delay: 0.2s; }
+    .wave-item:nth-child(4) { animation-delay: 0.3s; }
+    .wave-item:nth-child(5) { animation-delay: 0.4s; }
+    .wave-item:nth-child(6) { animation-delay: 0.5s; }
+    .wave-item:nth-child(7) { animation-delay: 0.6s; }
+    .wave-item:nth-child(8) { animation-delay: 0.7s; }
+
+    .card-hover {
+      animation: fadeInUp 0.4s ease-out backwards;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:nth-child(1) { animation-delay: 0.0s; }
+    .card-hover:nth-child(2) { animation-delay: 0.1s; }
+    .card-hover:nth-child(3) { animation-delay: 0.2s; }
+    .card-hover:nth-child(4) { animation-delay: 0.3s; }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.12);
+    }
+
+    .server-box {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .server-box:hover {
+      transform: translateY(-2px);
+    }
+
+    .flow-box {
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .flow-box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.15);
+    }
+
+    .header::after {
+      animation: lineGrow 0.8s ease-out forwards;
+    }
+
+    .step {
+      animation: fadeInUp 0.4s ease-out backwards;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .step:nth-child(1) { animation-delay: 0.0s; }
+    .step:nth-child(2) { animation-delay: 0.1s; }
+    .step:nth-child(3) { animation-delay: 0.2s; }
+    .step:nth-child(4) { animation-delay: 0.3s; }
+    .step:nth-child(5) { animation-delay: 0.4s; }
+    .step:hover {
+      transform: translateX(4px);
+      border-color: var(--gold);
+    }
+
+    .agent-table tr {
+      transition: background 0.2s ease;
+    }
+
+    .gap-fix-item {
+      transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.4s ease;
+      animation: fadeIn 0.4s ease-out backwards;
+    }
+    .gap-fix-item:nth-child(1) { animation-delay: 0.0s; }
+    .gap-fix-item:nth-child(2) { animation-delay: 0.05s; }
+    .gap-fix-item:nth-child(3) { animation-delay: 0.1s; }
+    .gap-fix-item:nth-child(4) { animation-delay: 0.15s; }
+    .gap-fix-item:nth-child(5) { animation-delay: 0.2s; }
+    .gap-fix-item:nth-child(6) { animation-delay: 0.25s; }
+    .gap-fix-item:nth-child(7) { animation-delay: 0.3s; }
+    .gap-fix-item:nth-child(8) { animation-delay: 0.35s; }
+    .gap-fix-item:nth-child(9) { animation-delay: 0.4s; }
+    .gap-fix-item:nth-child(10) { animation-delay: 0.45s; }
+    .gap-fix-item:hover {
+      transform: translateX(3px);
+      border-color: var(--gold-muted);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-on-scroll { opacity: 1; transform: none; }
+    .bee-float { animation: none; }
+    .shimmer { animation: none; }
+    .pulse-glow { animation: none; }
+    .shimmer-text { animation: none; }
+  }
+
+  /* ───── Print ───── */
+  @media print {
+    body { background: #fff !important; color: #111 !important; }
+    .toolbar { display: none !important; }
+    .card, .flow-diagram, .wave-item, .tree, .step, .server-box { background: #f8f8ff !important; border-color: #ddd !important; }
+    .card-title, .wave-name, .server-box .s-title, .step-content h3 { color: #333 !important; }
+    .card-desc, .wa-desc, .step-content p, td { color: #444 !important; }
+    .card-tag, .badge { background: #eee !important; color: #666 !important; }
+    .section-header h2, .tree .root { color: #333 !important; }
+    .header h1 { -webkit-text-fill-color: #d4af37 !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="downloadJPG()">📷 Download as JPG</button>
+</div>
+
+<div class="container" id="capture">
+
+  <!-- ═══════════════ HEADER ═══════════════ -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon bee-float">🐝</div>
+      <h1 class="shimmer-text">VibeTechBee</h1>
+    </div>
+    <p class="subtitle">Multi-Agent Content Pipeline — Architecture</p>
+    <div class="badge-row">
+      <span class="badge gold">11 Agents</span>
+      <span class="badge light">7 Waves</span>
+      <span class="badge amber">4 Platforms</span>
+      <span class="badge">Standalone</span>
+      <span class="badge">opencode Runtime</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════ STATS ═══════════════ -->
+  <div class="stats">
+    <div class="stat-item"><div class="stat-num">11</div><div class="stat-label">Specialized Agents</div></div>
+    <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Pipeline Waves</div></div>
+    <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Platform Targets</div></div>
+    <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Weekly Niches</div></div>
+    <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Custom Commands</div></div>
+    <div class="stat-item"><div class="stat-num">1</div><div class="stat-label">Skill File</div></div>
+  </div>
+
+  <!-- ═══════════════ SECTION 1: OVERVIEW ═══════════════ -->
+  <div class="section animate-on-scroll">
+    <div class="section-header">
+      <div class="tag">1</div>
+      <h2>Architecture Overview</h2>
+      <span class="desc">opencode as the AI runtime · task tool for subagents</span>
+    </div>
+
+    <div class="flow-diagram">
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="display:inline-block;background:var(--gold);color:#061028;padding:4px 16px;border-radius:6px;font-size:11px;font-weight:700;">EXECUTION FLOW</div>
+      </div>
+
+      <!-- opencode Server -->
+      <div class="server-box pulse-glow">
+        <div class="s-title">opencode (AI Runtime)</div>
+        <div class="s-sub">Executes the skill · spawns subagents via task() · manages context</div>
+        <div class="s-cmds">
+          <span class="s-cmd">/social-post daily</span>
+          <span class="s-cmd">/social-brand-setup</span>
+          <span class="s-cmd">/social-approve</span>
+        </div>
+      </div>
+
+      <div class="flow-arrow down">║  task()  ║</div>
+
+      <!-- Wave 1-7 -->
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;">
+        <div class="flow-box" style="border-color:var(--gold);">
+          <div class="fb-title">Wave 1</div>
+          <div class="fb-sub">Trend Discovery</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">scanner + selector</div>
+        </div>
+        <div class="flow-box" style="border-color:var(--gold);">
+          <div class="fb-title">Wave 2</div>
+          <div class="fb-sub">Verification</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">verifier + fallback + researcher</div>
+        </div>
+        <div class="flow-box" style="border-color:var(--gold);">
+          <div class="fb-title">Wave 3</div>
+          <div class="fb-sub">Strategy</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">matrix + tactical</div>
+        </div>
+        <div class="flow-box" style="border-color:var(--gold);">
+          <div class="fb-title">Wave 4</div>
+          <div class="fb-sub">Content</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">4 parallel writers</div>
+        </div>
+        <div class="flow-box" style="border-color:var(--gold);">
+          <div class="fb-title">Wave 5</div>
+          <div class="fb-sub">Images</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">Flux via OpenRouter</div>
+        </div>
+        <div class="flow-box" style="border-color:var(--gold);">
+          <div class="fb-title">Wave 6</div>
+          <div class="fb-sub">Package</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">checklist + calendar</div>
+        </div>
+        <div class="flow-box" style="border-color:var(--green);">
+          <div class="fb-title">Wave 7</div>
+          <div class="fb-sub">Approve</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">human gate</div>
+        </div>
+      </div>
+
+      <div class="flow-arrow down">║  output  ║</div>
+
+      <div style="text-align:center;">
+        <div class="flow-box output" style="display:inline-block;min-width:200px;">
+          <div class="fb-title">./social-posts/YYYY-MM-DD-topic/</div>
+          <div class="fb-sub">06-CHECKLIST.md · 4 posts · images · calendar update</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION 2: 7 WAVES ═══════════════ -->
+  <div class="section animate-on-scroll">
+    <div class="section-header">
+      <div class="tag">2</div>
+      <h2>The 7 Pipeline Waves</h2>
+      <span class="desc">Sequential waves · parallel agents within waves</span>
+    </div>
+
+    <div class="wave-list">
+
+      <!-- Wave 0 -->
+      <div class="wave-item">
+        <div class="wave-header">
+          <div class="wave-num">0</div>
+          <div class="wave-name">Brand Setup</div>
+          <span class="wave-tag">run once</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Interactive onboarding — captures brand voice, tone per platform, visual style, content pillar ratios, competitors. Outputs <strong style="color:var(--gold-light);">BRAND_GUIDE.md</strong> read by all agents.</div>
+        <div class="wave-agents">
+          <div class="wave-agent">
+            <div class="wa-name">social-brand-setup</div>
+            <div class="wa-desc">Brand Strategist — 3-questions-at-a-time interactive Q&amp;A via question tool</div>
+            <div class="wa-tools">tool: question · output: BRAND_GUIDE.md</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wave 1 -->
+      <div class="wave-item">
+        <div class="wave-header">
+          <div class="wave-num">1</div>
+          <div class="wave-name">Trend Discovery</div>
+          <span class="wave-tag">scan → score → select</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Scans 7 niches across 5+ sources each. Scores by velocity × reach × engagement. Dedups against 7-day history.</div>
+        <div class="wave-agents">
+          <div class="wave-agent">
+            <div class="wa-name">social-trend-scanner</div>
+            <div class="wa-desc">Scans X trending, Reddit, Google Trends, Product Hunt, TechCrunch, Google News across all 7 niches</div>
+            <div class="wa-tools">webfetch · 7 niches · real-time</div>
+          </div>
+          <div class="wave-agent">
+            <div class="wa-name">social-topic-selector</div>
+            <div class="wa-desc">Picks best candidate: weighted scoring, dedup against calendar, day-of-week fit check</div>
+            <div class="wa-tools">read · weighted scoring · dedup</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wave 2 -->
+      <div class="wave-item">
+        <div class="wave-header">
+          <div class="wave-num">2</div>
+          <div class="wave-name">Verification &amp; Research</div>
+          <span class="wave-tag">freshness → sentiment → fallback loop</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Quality gate: checks publish dates &lt;48hr, rejects negative topics. Max 3 retries before evergreen fallback. Deep researcher extracts facts, stats, quotes from 3+ sources.</div>
+        <div class="wave-agents">
+          <div class="wave-agent">
+            <div class="wa-name">social-freshness-verifier</div>
+            <div class="wa-desc">Gate agent: checks dates, runs sentiment, auto-rejects, signals retry loop</div>
+            <div class="wa-tools">webfetch · gate · sentiment · max 3 loops</div>
+          </div>
+          <div class="wave-agent">
+            <div class="wa-name">social-evergreen-fallback</div>
+            <div class="wa-desc">Safety net: generates from brand knowledge base when trend pipeline empties</div>
+            <div class="wa-tools">fallback · edit</div>
+          </div>
+          <div class="wave-agent">
+            <div class="wa-name">social-researcher</div>
+            <div class="wa-desc">Deep dive: extracts facts/stats/quotes, runs competitor differentiation analysis</div>
+            <div class="wa-tools">webfetch · 3+ sources · competitor scan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wave 3 -->
+      <div class="wave-item">
+        <div class="wave-header">
+          <div class="wave-num">3</div>
+          <div class="wave-name">Strategy — The Brain</div>
+          <span class="wave-tag">Stage A → B · fresh context each stage</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Stage A: reads research + brand guide + last 3 calendar entries, assigns angles/tone/format per platform, writes core message. Stage B: fresh read, picks hooks/CTAs/tactics/keywords/timing.</div>
+        <div class="wave-agents">
+          <div class="wave-agent">
+            <div class="wa-name">social-strategist — Stage A</div>
+            <div class="wa-desc">Strategy Matrix: platform angles, tone, format, core message statement, yesterday check</div>
+            <div class="wa-tools">read · fresh context · core message · yesterday check</div>
+          </div>
+          <div class="wave-agent">
+            <div class="wa-name">social-strategist — Stage B</div>
+            <div class="wa-desc">Tactical Brief: hook formulas, CTAs, engagement tactics, keywords, visual direction, timing</div>
+            <div class="wa-tools">edit · hook library · platform signals · engagement tactics</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wave 4 -->
+      <div class="wave-item">
+        <div class="wave-header">
+          <div class="wave-num">4</div>
+          <div class="wave-name">Content Writing</div>
+          <span class="wave-tag">4 agents · parallel</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">All writers read STRATEGY_TACTICAL.md. Each writes to their platform's #1 engagement signal. Character audit on X. Trigger word check on Facebook. Alt text on all images.</div>
+        <div class="wave-agents">
+          <div class="wave-agent"><div class="wa-name">social-instagram-writer</div><div class="wa-desc">Carousel caption + 5 hashtags + slide text + story. CTA → DM SHARES</div><div class="wa-tools">edit · carousel · alt text</div></div>
+          <div class="wave-agent"><div class="wa-name">social-linkedin-writer</div><div class="wa-desc">Long-form thought leadership. CTA → DWELL TIME + COMMENTS</div><div class="wa-tools">edit · thought leadership</div></div>
+          <div class="wave-agent"><div class="wa-name">social-x-writer</div><div class="wa-desc">Tweet/thread (3-7), HARD 280 char limit, ## Character Audit self-check. CTA → REPLIES</div><div class="wa-tools">edit · 280 limit · self-verify</div></div>
+          <div class="wave-agent"><div class="wa-name">social-facebook-writer</div><div class="wa-desc">Community discussion ~300 chars, trigger word check. CTA → MEANINGFUL INTERACTIONS</div><div class="wa-tools">edit · trigger word check</div></div>
+        </div>
+      </div>
+
+      <!-- Wave 5 -->
+      <div class="wave-item">
+        <div class="wave-header">
+          <div class="wave-num">5</div>
+          <div class="wave-name">Image Generation</div>
+          <span class="wave-tag">Flux via OpenRouter</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Per-platform dimensions: IG 1080×1350, LI 1200×627, X 1500×500, FB 1200×630. Brand style from BRAND_GUIDE.md. Alt text per image. Falls back to IMAGE_PROMPTS.md if credits exhausted.</div>
+        <div class="wave-agents">
+          <div class="wave-agent"><div class="wa-name">social-image-gen</div><div class="wa-desc">Visual Creator — Flux 1.1 Pro via OpenRouter</div><div class="wa-tools">webfetch · Flux · fallback: prompts · alt text · dimensions</div></div>
+        </div>
+      </div>
+
+      <!-- Wave 6 -->
+      <div class="wave-item">
+        <div class="wave-header">
+          <div class="wave-num">6</div>
+          <div class="wave-name">Package &amp; Deliver</div>
+          <span class="wave-tag">organize → checklist → calendar</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Organizes all outputs into date folder. Creates CHECKLIST.md with 1-line previews, optimal posting order (LI 8:30AM → X 9AM → IG 11AM → FB 7PM). Updates CONTENT_CALENDAR.md.</div>
+        <div class="wave-agents">
+          <div class="wave-agent"><div class="wa-name">social-packager</div><div class="wa-desc">Delivery Manager — organizes, previews, checks, logs</div><div class="wa-tools">edit · posting order · preview · calendar update</div></div>
+        </div>
+      </div>
+
+      <!-- Wave 7 -->
+      <div class="wave-item" style="border-left-color:var(--amber);">
+        <div class="wave-header">
+          <div class="wave-num" style="background:var(--amber);color:#061028;">7</div>
+          <div class="wave-name">Human Approval Gate</div>
+          <span class="wave-tag">you decide</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);">No agent. You review CHECKLIST.md and approve via <code style="background:rgba(212,175,55,0.15);padding:1px 5px;border-radius:3px;color:var(--gold);font-size:11px;">/social-approve</code> or publish manually. Nothing auto-posts.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION 3: HOW OPENCODE RUNS IT ═══════════════ -->
+  <div class="section animate-on-scroll">
+    <div class="section-header">
+      <div class="tag">3</div>
+      <h2>How opencode Executes the Pipeline</h2>
+      <span class="desc">Command → Skill → Subagents → Output</span>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>You type a command</h3>
+          <p><code style="background:rgba(212,175,55,0.15);padding:2px 6px;border-radius:3px;color:var(--gold);font-size:12px;">/social-post daily</code> — opencode loads the matching command file from <strong style="color:var(--gold-light);">commands/social-post-daily.md</strong></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Command loads the skill</h3>
+          <p>The command instructs opencode to load <strong style="color:var(--gold-light);">social-posting.skill.md</strong> which contains the full pipeline orchestration logic — wave sequencing, agent spawning rules, retry logic, and output structure.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Skill orchestrates waves</h3>
+          <p>The skill uses the <strong style="color:var(--gold-light);">task() tool</strong> to spawn subagents per wave. Sequential waves (1→2→3...) but parallel agents within a wave (e.g., Wave 4 spawns 4 writers simultaneously). Each subagent reads its <strong style="color:var(--gold-light);">agent .md file</strong> for instructions.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Agents execute &amp; write files</h3>
+          <p>Each agent reads context (STRATEGY.md, BRAND_GUIDE.md), executes its task using tools like <strong style="color:var(--gold-light);">webfetch</strong> (scanning) and <strong style="color:var(--gold-light);">edit</strong> (writing output), then writes its result to <strong style="color:var(--gold-light);">./social-posts/YYYY-MM-DD-topic/</strong></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>You review &amp; approve</h3>
+          <p>Packager creates CHECKLIST.md with all 4 post previews and optimal posting order. You review, optionally use <code style="background:rgba(212,175,55,0.15);padding:2px 6px;border-radius:3px;color:var(--gold);font-size:12px;">/social-approve</code> to log, then copy-paste to platforms.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION 4: PROJECT STRUCTURE ═══════════════ -->
+  <div class="section animate-on-scroll">
+    <div class="section-header">
+      <div class="tag">4</div>
+      <h2>Standalone Project Structure</h2>
+      <span class="desc">Portable · git-able · opencode as runtime only</span>
+    </div>
+
+    <div class="tree">
+      <span class="root">C:\Users\dell\vibetechbee-pipeline\</span>
+      <br>
+      ├── <span class="file">social-posting.skill.md</span>      <span class="comment">← orchestrator: waves, agent spawning, retry logic</span>
+      <br>
+      ├── <span class="folder">commands\</span>
+      <br>
+      │   ├── <span class="file">social-post-daily.md</span>       <span class="comment">← /social-post daily trigger</span>
+      <br>
+      │   ├── <span class="file">social-brand-setup.md</span>      <span class="comment">← /social-brand-setup trigger</span>
+      <br>
+      │   └── <span class="file">social-approve.md</span>           <span class="comment">← /social-approve gate</span>
+      <br>
+      ├── <span class="folder">agents\</span>
+      <br>
+      │   ├── <span class="file">trend-scanner.md</span>
+      <br>
+      │   ├── <span class="file">topic-selector.md</span>
+      <br>
+      │   ├── <span class="file">freshness-verifier.md</span>
+      <br>
+      │   ├── <span class="file">evergreen-fallback.md</span>
+      <br>
+      │   ├── <span class="file">researcher.md</span>
+      <br>
+      │   ├── <span class="file">strategist-matrix.md</span>
+      <br>
+      │   ├── <span class="file">strategist-tactical.md</span>
+      <br>
+      │   ├── <span class="file">instagram-writer.md</span>
+      <br>
+      │   ├── <span class="file">linkedin-writer.md</span>
+      <br>
+      │   ├── <span class="file">x-writer.md</span>
+      <br>
+      │   ├── <span class="file">facebook-writer.md</span>
+      <br>
+      │   └── <span class="file">image-gen.md</span>
+      <br>
+      ├── <span class="folder">brain\</span>
+      <br>
+      │   └── <span class="file">BRAND_GUIDE.md</span>             <span class="comment">← brand identity (generated by setup)</span>
+      <br>
+      ├── <span class="folder">social-posts\</span>
+      <br>
+      │   └── <span class="highlight">YYYY-MM-DD-topic-slug\</span>     <span class="comment">← daily output folder</span>
+      <br>
+      │       ├── <span class="file">01-TREND.md</span>
+      <br>
+      │       ├── <span class="file">02-RESEARCH.md</span>
+      <br>
+      │       ├── <span class="file">03-STRATEGY.md</span>
+      <br>
+      │       ├── <span class="folder">04-CONTENT\</span>
+      <br>
+      │       │   ├── <span class="file">instagram.md</span>
+      <br>
+      │       │   ├── <span class="file">linkedin.md</span>
+      <br>
+      │       │   ├── <span class="file">x.md</span>
+      <br>
+      │       │   └── <span class="file">facebook.md</span>
+      <br>
+      │       ├── <span class="folder">05-IMAGES\</span>
+      <br>
+      │       │   ├── <span class="file">prompts.md</span>
+      <br>
+      │       │   ├── <span class="file">instagram-1080x1350.png</span>
+      <br>
+      │       │   ├── <span class="file">linkedin-1200x627.png</span>
+      <br>
+      │       │   ├── <span class="file">x-1500x500.png</span>
+      <br>
+      │       │   └── <span class="file">facebook-1200x630.png</span>
+      <br>
+      │       └── <span class="highlight">06-CHECKLIST.md</span>           <span class="comment">← post previews + posting order</span>
+      <br>
+      ├── <span class="file">architecture.html</span>              <span class="comment">← this file</span>
+      <br>
+      └── <span class="file">blueprint.html</span>                 <span class="comment">← visual pipeline blueprint</span>
+    </div>
+
+    <div style="margin-top:14px;font-size:12px;color:var(--text-muted);text-align:center;">
+      Commands are symlinked/copied to <code style="background:rgba(212,175,55,0.1);padding:2px 6px;border-radius:3px;color:var(--gold);">~/.config/opencode/command/</code> for global access.
+      The skill and agents remain local to this project folder.
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION 5: AGENT TABLE ═══════════════ -->
+  <div class="section animate-on-scroll">
+    <div class="section-header">
+      <div class="tag">5</div>
+      <h2>Agent Inventory</h2>
+      <span class="desc">All 11 agents · roles · tools · triggers</span>
+    </div>
+    <div style="overflow-x:auto;border-radius:10px;border:1px solid var(--card-border);">
+      <table class="agent-table">
+        <tr>
+          <th>#</th><th>Agent</th><th>Role</th><th>Wave</th><th>Tools</th><th>Output</th>
+        </tr>
+        <tr><td>0</td><td style="color:var(--gold-light);font-weight:600;">social-brand-setup</td><td>Brand Strategist</td><td>0</td><td>question</td><td>BRAND_GUIDE.md</td></tr>
+        <tr><td>1</td><td style="color:var(--gold-light);font-weight:600;">social-trend-scanner</td><td>Trend Scout</td><td>1</td><td>webfetch</td><td>01-TREND.md</td></tr>
+        <tr><td>2</td><td style="color:var(--gold-light);font-weight:600;">social-topic-selector</td><td>Topic Selector</td><td>1</td><td>read</td><td>selected topic</td></tr>
+        <tr><td>3</td><td style="color:var(--gold-light);font-weight:600;">social-freshness-verifier</td><td>Quality Gate</td><td>2</td><td>webfetch</td><td>pass/reject signal</td></tr>
+        <tr><td>4</td><td style="color:var(--gold-light);font-weight:600;">social-evergreen-fallback</td><td>Safety Net</td><td>2</td><td>edit</td><td>fallback topic</td></tr>
+        <tr><td>5</td><td style="color:var(--gold-light);font-weight:600;">social-researcher</td><td>Deep Researcher</td><td>2</td><td>webfetch</td><td>02-RESEARCH.md</td></tr>
+        <tr><td>6</td><td style="color:var(--gold-light);font-weight:600;">social-strategist A</td><td>Strategy Matrix</td><td>3</td><td>read</td><td>core message</td></tr>
+        <tr><td>7</td><td style="color:var(--gold-light);font-weight:600;">social-strategist B</td><td>Tactical Brief</td><td>3</td><td>edit</td><td>03-STRATEGY.md</td></tr>
+        <tr><td>8</td><td style="color:var(--gold-light);font-weight:600;">social-instagram-writer</td><td>IG Copywriter</td><td>4</td><td>edit</td><td>instagram.md</td></tr>
+        <tr><td>9</td><td style="color:var(--gold-light);font-weight:600;">social-linkedin-writer</td><td>LI Copywriter</td><td>4</td><td>edit</td><td>linkedin.md</td></tr>
+        <tr><td>10</td><td style="color:var(--gold-light);font-weight:600;">social-x-writer</td><td>X Copywriter</td><td>4</td><td>edit</td><td>x.md</td></tr>
+        <tr><td>11</td><td style="color:var(--gold-light);font-weight:600;">social-facebook-writer</td><td>FB Copywriter</td><td>4</td><td>edit</td><td>facebook.md</td></tr>
+        <tr><td>12</td><td style="color:var(--gold-light);font-weight:600;">social-image-gen</td><td>Visual Creator</td><td>5</td><td>webfetch</td><td>images + prompts.md</td></tr>
+        <tr><td>13</td><td style="color:var(--gold-light);font-weight:600;">social-packager</td><td>Delivery Manager</td><td>6</td><td>edit</td><td>06-CHECKLIST.md</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION 6: PLATFORM SIGNAL MAP ═══════════════ -->
+  <div class="section animate-on-scroll">
+    <div class="section-header">
+      <div class="tag">6</div>
+      <h2>Platform Signal Hierarchy</h2>
+      <span class="desc">Each writer optimizes for its #1 signal</span>
+    </div>
+    <div class="cards cards-4">
+      <div class="card card-hover" style="text-align:center;">
+        <div style="font-size:24px;margin-bottom:6px;">📸</div>
+        <div class="card-title">Instagram</div>
+        <div style="font-size:11px;color:var(--green);margin:6px 0;">🥇 DM SHARES > Saves</div>
+        <div style="font-size:10px;color:var(--red);margin-bottom:6px;">💀 Likes (lowest value)</div>
+        <div style="font-size:11px;color:var(--amber);font-style:italic;">"Tag someone who needs this"</div>
+      </div>
+      <div class="card card-hover" style="text-align:center;">
+        <div style="font-size:24px;margin-bottom:6px;">💼</div>
+        <div class="card-title">LinkedIn</div>
+        <div style="font-size:11px;color:var(--green);margin:6px 0;">🥇 DWELL TIME > Comments</div>
+        <div style="font-size:10px;color:var(--red);margin-bottom:6px;">💀 Reposts w/o comments</div>
+        <div style="font-size:11px;color:var(--amber);font-style:italic;">"I was wrong about..."</div>
+      </div>
+      <div class="card card-hover" style="text-align:center;">
+        <div style="font-size:24px;margin-bottom:6px;">🐦</div>
+        <div class="card-title">X (Twitter)</div>
+        <div style="font-size:11px;color:var(--green);margin:6px 0;">🥇 REPLIES > Retweets</div>
+        <div style="font-size:10px;color:var(--red);margin-bottom:6px;">💀 Likes w/o replies</div>
+        <div style="font-size:11px;color:var(--amber);font-style:italic;">"Agree or disagree?"</div>
+      </div>
+      <div class="card card-hover" style="text-align:center;">
+        <div style="font-size:24px;margin-bottom:6px;">👥</div>
+        <div class="card-title">Facebook</div>
+        <div style="font-size:11px;color:var(--green);margin:6px 0;">🥇 MEANINGFUL INTERACTIONS</div>
+        <div style="font-size:10px;color:var(--red);margin-bottom:6px;">💀 Trigger words (-70%)</div>
+        <div style="font-size:11px;color:var(--amber);font-style:italic;">"Honest question for you"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION 7: GAP FIXES ═══════════════ -->
+  <div class="section animate-on-scroll">
+    <div class="section-header">
+      <div class="tag">7</div>
+      <h2>10 Gap Fixes Applied</h2>
+      <span class="desc">From virtual test → resolved in v1.0</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">1. Strategist context overload</strong>
+        <div style="font-size:11px;color:var(--text-muted);">Split into Stage A + B with fresh context per stage</div>
+      </div>
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">2. No yesterday-awareness</strong>
+        <div style="font-size:11px;color:var(--text-muted);">Strategist reads last 3 calendar entries before deciding</div>
+      </div>
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">3. No negative topic detection</strong>
+        <div style="font-size:11px;color:var(--text-muted);">Sentiment scan added to freshness verifier</div>
+      </div>
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">4. No evergreen fallback</strong>
+        <div style="font-size:11px;color:var(--text-muted);">Dedicated fallback agent when trend pipeline empties</div>
+      </div>
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">5. No core message enforcement</strong>
+        <div style="font-size:11px;color:var(--text-muted);">CORE_MESSAGE — all writers must obey, prevents contradiction</div>
+      </div>
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">6. No content pillar ratios</strong>
+        <div style="font-size:11px;color:var(--text-muted);">40/30/20/10 split defined in BRAND_GUIDE.md</div>
+      </div>
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">7. No posting order</strong>
+        <div style="font-size:11px;color:var(--text-muted);">Time-optimal order per platform in CHECKLIST.md</div>
+      </div>
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">8. No character count for X</strong>
+        <div style="font-size:11px;color:var(--text-muted);">280-char hard limit + ## Character Audit self-check</div>
+      </div>
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">9. No image alt text</strong>
+        <div style="font-size:11px;color:var(--text-muted);">Image gen outputs alt text per image</div>
+      </div>
+      <div class="gap-fix-item" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;">
+        <strong style="color:var(--gold-light);font-size:12px;">10. No feedback loop</strong>
+        <div style="font-size:11px;color:var(--text-muted);">Documented as V2 — performance review agent</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION 8: NICHE ROTATION ═══════════════ -->
+  <div class="section animate-on-scroll">
+    <div class="section-header">
+      <div class="tag">8</div>
+      <h2>Weekly Niche Rotation</h2>
+      <span class="desc">7 niches · 7 days · weighted scanning</span>
+    </div>
+    <div style="overflow-x:auto;border-radius:10px;border:1px solid var(--card-border);">
+      <table class="agent-table">
+        <tr><th>Day</th><th>Primary Niche</th><th>Content Pillar</th><th>Engagement Goal</th></tr>
+        <tr><td style="color:var(--gold-light);font-weight:700;">Mon</td><td>Tech</td><td>News (30%)</td><td style="color:var(--amber);">Shares + Comments</td></tr>
+        <tr><td style="color:var(--gold-light);font-weight:700;">Tue</td><td>AI for Productivity</td><td>Educational (40%)</td><td style="color:var(--green);">Saves + Bookmarks</td></tr>
+        <tr><td style="color:var(--gold-light);font-weight:700;">Wed</td><td>Apps</td><td>Educational (40%)</td><td style="color:var(--green);">Saves + Shares</td></tr>
+        <tr><td style="color:var(--gold-light);font-weight:700;">Thu</td><td>Business</td><td>Educational (40%)</td><td style="color:var(--gold);">Dwell Time</td></tr>
+        <tr><td style="color:var(--gold-light);font-weight:700;">Fri</td><td>Gadgets / Mobile</td><td>Entertainment (20%)</td><td style="color:var(--amber);">Shares + DM</td></tr>
+        <tr><td style="color:var(--gold-light);font-weight:700;">Sat</td><td>Real Estate</td><td>Educational (40%)</td><td style="color:var(--gold);">Comments + Saves</td></tr>
+        <tr><td style="color:var(--gold-light);font-weight:700;">Sun</td><td>Wildcard (Best of Week)</td><td>Entertainment (20%)</td><td style="color:var(--amber);">Shares + Replies</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>VibeTechBee — Multi-Agent Content Pipeline Architecture</p>
+    <p style="margin-top:4px;">Built for opencode · 11 agents · 7 waves · 4 platforms · max engagement</p>
+    <p style="margin-top:12px;font-size:11px;">Design: VibeTechBee Brand · Navy Blue · Champagne Gold · Dark Mode</p>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── Scroll-triggered animations ──
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReducedMotion) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+  }
+
+  // ── Download as JPG ──
+  window.downloadJPG = function() {
+    const btn = document.querySelector('.toolbar button');
+    const originalText = btn.textContent;
+    btn.textContent = '⏳ Rendering...';
+    btn.disabled = true;
+
+    const captureEl = document.getElementById('capture');
+
+    html2canvas(captureEl, {
+      scale: 2,
+      backgroundColor: '#061028',
+      allowTaint: false,
+      useCORS: true,
+      logging: false,
+      width: captureEl.scrollWidth,
+      height: captureEl.scrollHeight,
+      windowWidth: captureEl.scrollWidth,
+      windowHeight: captureEl.scrollHeight,
+    }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'vibetechbee-architecture.jpg';
+      link.href = canvas.toDataURL('image/jpeg', 0.92);
+      link.click();
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }).catch(err => {
+      alert('Failed to render JPG: ' + err.message);
+      btn.textContent = originalText;
+      btn.disabled = false;
+    });
+  };
+
+})();
+</script>
+
+</body>
+</html>
+
