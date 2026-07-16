@@ -19,7 +19,7 @@ Wave 3: Strategy            ── matrix → tactical (sequential, fresh contex
   │
 Wave 4: Content Writing     ── IG + LI + X + FB (parallel 4x)
   │
-Wave 5: Image Generation    ── flux visual creator (solo)
+Wave 5: Image Generation    ── gemini visual creator (solo)
   │
 Wave 6: Package & Deliver   ── packager (solo)
   │

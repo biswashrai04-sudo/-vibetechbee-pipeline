@@ -1,6 +1,6 @@
 # IMAGE_PROMPTS.md — Seed Fallback Prompts
 #
-# Used when all flux models (flux.2-max → flux.1.1-pro → flux-schnell)
+# Used when all image generation models are exhausted or unavailable.
 # are exhausted or unavailable. Prompts are organized by niche.
 # Each prompt can be used with any text-to-image model.
 
