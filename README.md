@@ -89,7 +89,7 @@ social-posts/2026-07-16-ai-productivity-tools/
 - **Runtime**: [opencode](https://opencode.ai)
 - **Orchestration**: `task()` subagent spawning (11 agents)
 - **Trend Intelligence**: `webfetch` — X, Reddit, Google Trends, Product Hunt, TechCrunch, Google News
-- **Image Generation**: Flux 1.1 Pro via OpenRouter (falls back to prompt files)
+- **Image Generation**: black-forest-labs/flux.2-max via OpenRouter (falls back to prompt files)
 - **Brand**: VibeTechBee — Navy Blue `#061028` · Champagne Gold `#f5e6b8`
 
 ---
@@ -114,3 +114,4 @@ open social-posts/YYYY-MM-DD-topic/06-CHECKLIST.md
 **Built for opencode · 11 agents · 7 waves · 4 platforms · max engagement**
 
 </div>
+
