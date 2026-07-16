@@ -603,8 +603,8 @@
     </div>
     <p class="subtitle">Multi-Agent Content Pipeline — Architecture</p>
     <div class="badge-row">
-      <span class="badge primary">11 Agents</span>
-      <span class="badge secondary">7 Waves</span>
+      <span class="badge primary">13 Agents</span>
+      <span class="badge secondary">8 Waves</span>
       <span class="badge amber">4 Platforms</span>
       <span class="badge">Standalone</span>
       <span class="badge">opencode Runtime</span>
@@ -613,8 +613,8 @@
 
   <!-- ═══════════════ STATS ═══════════════ -->
   <div class="stats">
-    <div class="stat-item"><div class="stat-num">11</div><div class="stat-label">Specialized Agents</div></div>
-    <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Pipeline Waves</div></div>
+    <div class="stat-item"><div class="stat-num">13</div><div class="stat-label">Specialized Agents</div></div>
+    <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Pipeline Waves</div></div>
     <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Platform Targets</div></div>
     <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Weekly Niches</div></div>
     <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Custom Commands</div></div>
@@ -647,8 +647,13 @@
 
       <div class="flow-arrow down">║  task()  ║</div>
 
-      <!-- Wave 1-7 -->
-      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;">
+      <!-- Wave 0-7 -->
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:5px;">
+        <div class="flow-box" style="border-color:var(--amber);">
+          <div class="fb-title">Wave 0</div>
+          <div class="fb-sub">Brand Setup</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">run once</div>
+        </div>
         <div class="flow-box" style="border-color:var(--primary);">
           <div class="fb-title">Wave 1</div>
           <div class="fb-sub">Trend Discovery</div>
@@ -701,7 +706,7 @@
   <div class="section animate-on-scroll">
     <div class="section-header">
       <div class="tag">2</div>
-      <h2>The 7 Pipeline Waves</h2>
+      <h2>The 8 Pipeline Waves</h2>
       <span class="desc">Sequential waves · parallel agents within waves</span>
     </div>
 
@@ -714,7 +719,7 @@
           <div class="wave-name">Brand Setup</div>
           <span class="wave-tag">run once</span>
         </div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Interactive onboarding — captures brand voice, tone per platform, visual style, content pillar ratios, competitors. Outputs <strong style="color:var(--light);">BRAND_GUIDE.md</strong> read by all agents.</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Interactive onboarding — captures brand voice, tone per platform, visual style, content pillar ratios, competitors. Outputs <strong style="color:var(--light);">BRAND_GUIDE.md</strong> read by all agents. If missing, agents degrade gracefully with built-in defaults (VibeTechBee brand).</div>
         <div class="wave-agents">
           <div class="wave-agent">
             <div class="wa-name">social-brand-setup</div>
@@ -804,9 +809,9 @@
         </div>
         <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">All writers read STRATEGY_TACTICAL.md. Each writes to their platform's #1 engagement signal. Character audit on X. Trigger word check on Facebook. Alt text on all images.</div>
         <div class="wave-agents">
-          <div class="wave-agent"><div class="wa-name">social-instagram-writer</div><div class="wa-desc">Carousel caption + 5 hashtags + slide text + story. CTA → DM SHARES</div><div class="wa-tools">edit · carousel · alt text</div></div>
-          <div class="wave-agent"><div class="wa-name">social-linkedin-writer</div><div class="wa-desc">Long-form thought leadership. CTA → DWELL TIME + COMMENTS</div><div class="wa-tools">edit · thought leadership</div></div>
-          <div class="wave-agent"><div class="wa-name">social-x-writer</div><div class="wa-desc">Tweet/thread (3-7), HARD 280 char limit, ## Character Audit self-check. CTA → REPLIES</div><div class="wa-tools">edit · 280 limit · self-verify</div></div>
+          <div class="wave-agent"><div class="wa-name">social-instagram-writer</div><div class="wa-desc">Carousel caption (125-150 words) + 5 hashtags + slide text + story hook. CTA → DM SHARES</div><div class="wa-tools">edit · carousel · alt text</div></div>
+          <div class="wave-agent"><div class="wa-name">social-linkedin-writer</div><div class="wa-desc">Thought leadership structure: Hook (1-2 lines) → Context (2-3 sentences) → Insight (3-5 bullets) → CTA (1 sentence). 800-1200 chars. CTA → DWELL TIME</div><div class="wa-tools">edit · hook/insight/CTA structure</div></div>
+          <div class="wave-agent"><div class="wa-name">social-x-writer</div><div class="wa-desc">Tweet or thread (3-7 tweets). Appends ## Character Audit footer: counts total chars + each tweet. Must stay ≤280 per tweet. CTA → REPLIES</div><div class="wa-tools">edit · 280 limit · ## Character Audit</div></div>
           <div class="wave-agent"><div class="wa-name">social-facebook-writer</div><div class="wa-desc">Community discussion ~300 chars, trigger word check. CTA → MEANINGFUL INTERACTIONS</div><div class="wa-tools">edit · trigger word check</div></div>
         </div>
       </div>
@@ -818,7 +823,7 @@
           <div class="wave-name">Image Generation</div>
           <span class="wave-tag">Flux.2 Max via OpenRouter</span>
         </div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Per-platform dimensions: IG 1080×1350, LI 1200×627, X 1500×500, FB 1200×630. Brand style from BRAND_GUIDE.md. Alt text per image. Fallback chain: black-forest-labs/flux.2-max → flux.1.1-pro → flux-schnell → IMAGE_PROMPTS.md if all exhausted.</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Generates 1 image per platform (4 total). Calls OpenRouter API: POST to https://openrouter.ai/api/v1/chat/completions with model chain. Reads OPENROUTER_API_KEY from .env. Per-platform dimensions: IG 1080×1350, LI 1200×627, X 1500×500, FB 1200×630. Brand style from BRAND_GUIDE.md. Alt text per image. Fallback chain: black-forest-labs/flux.2-max → flux.1.1-pro → flux-schnell → IMAGE_PROMPTS.md if all exhausted.</div>
         <div class="wave-agents">
           <div class="wave-agent"><div class="wa-name">social-image-gen</div><div class="wa-desc">Visual Creator — flux.2-max → 1.1-pro → schnell → text fallback</div><div class="wa-tools">webfetch · flux.2-max · 1.1-pro · schnell · prompts fallback</div></div>
         </div>
@@ -831,7 +836,7 @@
           <div class="wave-name">Package &amp; Deliver</div>
           <span class="wave-tag">organize → checklist → calendar</span>
         </div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Organizes all outputs into date folder. Creates CHECKLIST.md with 1-line previews, optimal posting order (LI 8:30AM → X 9AM → IG 11AM → FB 7PM). Updates CONTENT_CALENDAR.md.</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Organizes all outputs into date folder. Cross-checks all 4 posts against CORE_MESSAGE for contradictions. Creates CHECKLIST.md with 1-line previews, optimal posting order (LI 8:30AM → X 9AM → IG 11AM → FB 7PM). Updates CONTENT_CALENDAR.md.</div>
         <div class="wave-agents">
           <div class="wave-agent"><div class="wa-name">social-packager</div><div class="wa-desc">Delivery Manager — organizes, previews, checks, logs</div><div class="wa-tools">edit · posting order · preview · calendar update</div></div>
         </div>
@@ -910,6 +915,8 @@
       <br>
       ├── <span class="file">social-posting.skill.md</span>      <span class="comment">← orchestrator: waves, agent spawning, retry logic</span>
       <br>
+      ├── <span class="file">.env.example</span>                  <span class="comment">← required env vars (copy to .env)</span>
+      <br>
       ├── <span class="folder">commands\</span>
       <br>
       │   ├── <span class="file">social-post-daily.md</span>       <span class="comment">← /social-post daily trigger</span>
@@ -942,11 +949,17 @@
       <br>
       │   ├── <span class="file">facebook-writer.md</span>
       <br>
-      │   └── <span class="file">image-gen.md</span>
+      │   ├── <span class="file">image-gen.md</span>
+      <br>
+      │   └── <span class="file">packager.md</span>
       <br>
       ├── <span class="folder">brain\</span>
       <br>
-      │   └── <span class="file">BRAND_GUIDE.md</span>             <span class="comment">← brand identity (generated by setup)</span>
+      │   ├── <span class="file">BRAND_GUIDE.md</span>             <span class="comment">← brand identity (generated by setup)</span>
+      <br>
+      │   ├── <span class="file">IMAGE_PROMPTS.md</span>            <span class="comment">← seed prompts for fallback image gen</span>
+      <br>
+      │   └── <span class="file">CONTENT_CALENDAR.md</span>          <span class="comment">← running log of all published posts</span>
       <br>
       ├── <span class="folder">social-posts\</span>
       <br>
@@ -998,7 +1011,7 @@
     <div class="section-header">
       <div class="tag">5</div>
       <h2>Agent Inventory</h2>
-      <span class="desc">All 11 agents · roles · tools · triggers</span>
+      <span class="desc">All 13 agents · roles · tools · triggers</span>
     </div>
     <div style="overflow-x:auto;border-radius:10px;border:1px solid var(--card-border);">
       <table class="agent-table">
@@ -1018,7 +1031,7 @@
         <tr><td>10</td><td style="color:var(--light);font-weight:600;">social-x-writer</td><td>X Copywriter</td><td>4</td><td>edit</td><td>x.md</td></tr>
         <tr><td>11</td><td style="color:var(--light);font-weight:600;">social-facebook-writer</td><td>FB Copywriter</td><td>4</td><td>edit</td><td>facebook.md</td></tr>
         <tr><td>12</td><td style="color:var(--light);font-weight:600;">social-image-gen</td><td>Visual Creator</td><td>5</td><td>webfetch</td><td>images + prompts.md</td></tr>
-        <tr><td>13</td><td style="color:var(--light);font-weight:600;">social-packager</td><td>Delivery Manager</td><td>6</td><td>edit</td><td>06-CHECKLIST.md</td></tr>
+        <tr><td>13</td><td style="color:var(--light);font-weight:600;">social-packager</td><td>Delivery Manager</td><td>6</td><td>edit · cross-check</td><td>06-CHECKLIST.md</td></tr>
       </table>
     </div>
   </div>
@@ -1137,7 +1150,7 @@
   <!-- Footer -->
   <div class="footer">
     <p>VibeTechBee — Multi-Agent Content Pipeline Architecture</p>
-    <p style="margin-top:4px;">Built for opencode · 11 agents · 7 waves · 4 platforms · max engagement</p>
+    <p style="margin-top:4px;">Built for opencode · 13 agents · 8 waves · 4 platforms · max engagement</p>
     <p style="margin-top:12px;font-size:11px;">Design: VibeTechBee Brand · Navy · Teal · Sky Blue · Beige</p>
   </div>
 
