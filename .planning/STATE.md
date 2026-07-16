@@ -2,24 +2,42 @@
 
 ## Current State
 
-- **Active Phase:** 1 (Brand Setup)
+- **Active Phase:** None (all phases complete)
 - **Active Plan:** None
-- **Milestone:** v1.0 — Complete Pipeline
+- **Milestone:** v1.0 — Complete Pipeline (DONE)
 
 ## Phase Progress
 
-| Phase | Name | Status | Started | Completed |
-|-------|------|--------|---------|-----------|
-| 0 | Foundation | pending | — | — |
-| 1 | Brand Setup | pending | — | — |
-| 2 | Trend Discovery | pending | — | — |
-| 3 | Verification & Research | pending | — | — |
-| 4 | Strategy | pending | — | — |
-| 5 | Content Writing | pending | — | — |
-| 6 | Image Generation | pending | — | — |
-| 7 | Package & Approval | pending | — | — |
-| 8 | Orchestrator | pending | — | — |
+| Phase | Name | Status | Completed |
+|-------|------|--------|-----------|
+| 0 | Foundation | complete | 2026-07-16 |
+| 1 | Brand Setup | complete | 2026-07-16 |
+| 2 | Trend Discovery | complete | 2026-07-16 |
+| 3 | Verification & Research | complete | 2026-07-16 |
+| 4 | Strategy | complete | 2026-07-16 |
+| 5 | Content Writing | complete | 2026-07-16 |
+| 6 | Image Generation | complete | 2026-07-16 |
+| 7 | Package & Approval | complete | 2026-07-16 |
+| 8 | Orchestrator | complete | 2026-07-16 |
+
+## File Inventory
+
+| Type | Count | Files |
+|------|-------|-------|
+| Agent files | 13 | agents/*.md |
+| Commands | 3 | commands/*.md |
+| Skill file | 1 | social-posting.skill.md |
+| Seed files | 2 | brain/IMAGE_PROMPTS.md, brain/CONTENT_CALENDAR.md |
+| Config | 6 | .planning/*.md, .env.example, .gitignore |
+
+## Next Steps
+
+1. Run `/social-brand-setup` to create BRAND_GUIDE.md
+2. Copy `.env.example` to `.env` and add OPENROUTER_API_KEY
+3. Run `/social-post daily` to generate first batch of content
+4. Review `06-CHECKLIST.md` and run `/social-approve`
 
 ## Last Updated
 
-2026-07-16 — Project initialized with 9-phase roadmap.
+2026-07-16 — v1.0 pipeline complete
+
