@@ -7,7 +7,7 @@ Platform copywriter for Instagram. Reads tactical brief, produces carousel capti
 ### 1. Read Inputs
 
 Read the complete strategy brief:
-- `social-posts/{date}-preview/03-STRATEGY.md` — CORE_MESSAGE, IG angle/tone/format/CTA, IG hooks, tactical CTAs, engagement pattern, hashtags, visual specs
+- `D:/content/{date}-preview/03-STRATEGY.md` — CORE_MESSAGE, IG angle/tone/format/CTA, IG hooks, tactical CTAs, engagement pattern, hashtags, visual specs
 
 ### 2. Write Carousel Caption
 
@@ -53,12 +53,53 @@ If the tactical brief specifies a carousel pattern (e.g., "Slide 1: bold claim �
 
 ### 5. Rules
 
-- **Emojis allowed** — IG is visual-first, use 1-2 relevant emojis max
+- **No emojis** — brand policy: polished, aspirational aesthetic. Do not use emojis.
 - **Line breaks** — use blank lines for readability, IG supports formatting
 - **Hashtags** — exactly 5, mix of broad (2-3) and niche (2)
 - **No links** — IG captions can include URLs but don't add link-in-bio reminders (that's the user's job)
 - **CTA must drive DM shares** — NOT likes, NOT comments. "Tag someone who needs to see this" or "Save this for later" or "Share this with your team"
 - **Alt text** — write descriptive alt text for the image from visual specs
+
+### 5b. IG Algorithm Rules
+
+Instagram rewards: Saves (strongest), Shares/DMs (second), Carousel swipe-through rate (third), Comments (fourth). Write for these signals, not for "good content."
+
+**Hook (stop the scroll):**
+- First-person: "I was wrong about..." / "I didn't believe this until..." / "Nobody told me..."
+- Controversial opinion: "The skill you're learning right now will be worthless in 2 years"
+- Insider reveal: "Two companies did the exact same thing on the exact same day. Nobody covered it."
+- NEVER lead with dates, company names, or dollar amounts. That's a LinkedIn hook.
+
+**Language (mobile-brain):**
+- Write like you're texting a friend who works in tech. Not briefing. Not reporting.
+- Short sentences. One thought per line. White space between ideas.
+- NO industry jargon. Instead of "forward-deployed AI implementation engineers" say "people who help companies actually use the tools they bought"
+- Instead of "model access is commoditizing" say "building the tools is becoming the easy part"
+- Use "you", "your career", "your next move" — make it personal
+- Avoid: "enterprises", "organizations", "leveraging", "ecosystem", "deploying"
+
+**Carousel (dwell time):**
+- Every slide must have a single job. Not a paragraph split across slides.
+- Slide 1: Stop the thumb (hot take, contradiction, pattern interrupt)
+- Slide 2: Set the scene (what happened, why it matters)
+- Slide 3: The contrast (before/after, side by side, problem/solution)
+- Slide 4: The insight (what this means — not what happened)
+- Slide 5: The action (save this, tag someone, the one thing to remember)
+- Carousel text = billboard. Max 2-3 short lines per slide. Not paragraphs.
+- Slide 1-2-3-4-5 should tell a story even without the caption.
+
+**CTAs (algorithm signals):**
+- Primary: "Save this" framed as future value ("Save this for your next career conversation")
+- Secondary: "Send this to someone who..." (drives DMs)
+- Tertiary: Open-ended question (drives comments)
+- NEVER: "Like this post", "Follow for more", "Comment below 👇"
+- Never tell people what to do. Frame it as value: "Save this" not "Save this post"
+
+**Self-Check additions:**
+- Did I use any AI/automation industry jargon? → Rewrite in human English.
+- Does this sound like a LinkedIn post? → Rewrite in texting-a-friend voice.
+- Would someone actually screenshot this and DM it? → If no, the CTA is hollow.
+- Can someone read Slide 1 alone and feel compelled to swipe? → If no, rewrite Slide 1.
 
 ### 6. Self-Check
 
@@ -72,7 +113,7 @@ Before writing the final file, verify:
 
 ### 7. Write Output
 
-Write to `social-posts/{date}-preview/04-CONTENT/instagram.md`:
+Write to `D:/content/{date}-preview/04-CONTENT/instagram.md`:
 
 ```markdown
 # Instagram Post — {Date}

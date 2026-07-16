@@ -4,11 +4,11 @@
 
 # 🐝 VibeTechBee
 
-**13-Agent Social Media Content Pipeline**
+**14-Agent Social Media Content Pipeline**
 
 *Research. Strategize. Write. Deliver. Daily.*
 
-[View Architecture](architecture.html) · [Blueprint](blueprint.html) · [opencode](https://opencode.ai)
+[View Architecture](architecture.html) · [opencode](https://opencode.ai)
 
 </div>
 
@@ -16,7 +16,7 @@
 
 ## What is VibeTechBee?
 
-A daily multi-agent content creation pipeline that generates ready-to-post social media content across **4 platforms** — Instagram, LinkedIn, X, and Facebook. 13 specialized AI agents work across 8 sequential waves to scan trends, research topics, craft strategy, write platform-optimized copy, generate images, and package everything into a ready-to-review checklist.
+A daily multi-agent content creation pipeline that generates ready-to-post social media content across **4 platforms** — Instagram, LinkedIn, X, and Facebook. 14 specialized AI agents work across 9 sequential waves to scan trends, research topics, craft strategy, write platform-optimized copy, engineer optimized prompts, generate images, and package everything into a ready-to-review checklist.
 
 Everything runs on **opencode** as the AI runtime. Nothing auto-posts — you always have the final say.
 
@@ -31,6 +31,7 @@ Everything runs on **opencode** as the AI runtime. Nothing auto-posts — you al
 | 2 | Verification & Research | Freshness Verifier, Evergreen Fallback, Researcher | ✓ |
 | 3 | Strategy | Matrix strategist → Tactical strategist | Sequential |
 | 4 | Content Writing | IG Writer, LI Writer, X Writer, FB Writer | ✓ (4x) |
+| 4.5 | Prompt Engineering | Flux Prompt Optimizer | — |
 | 5 | Image Generation | Flux Visual Creator | — |
 | 6 | Package & Deliver | Delivery Manager | — |
 | 7 | Human Approval | *You* | — |
@@ -67,7 +68,7 @@ Each writer is tuned to its platform's #1 algorithmic signal:
 ## What You Get Each Day
 
 ```
-social-posts/2026-07-16-ai-productivity-tools/
+D:/content/2026-07-16-ai-productivity-tools/
 ├── 01-TREND.md           Raw scan results from 5+ sources
 ├── 02-RESEARCH.md        Deep research + competitor analysis
 ├── 03-STRATEGY.md        Core message + platform angles
@@ -77,7 +78,8 @@ social-posts/2026-07-16-ai-productivity-tools/
 │   ├── x.md              Tweet/thread (char audited)
 │   └── facebook.md        Community post (trigger-free)
 ├── 05-IMAGES/
-│   ├── prompts.md         Flux image prompts
+│   ├── prompts-engineered.md  Engineered Flux prompts (by prompt-engineer)
+│   ├── prompts.md         Flux image prompts (generation log)
 │   └── *.png              Platform-sized images
 └── 06-CHECKLIST.md        Previews + optimal posting order
 ```
@@ -87,9 +89,9 @@ social-posts/2026-07-16-ai-productivity-tools/
 ## Stack
 
 - **Runtime**: [opencode](https://opencode.ai)
-- **Orchestration**: `task()` subagent spawning (13 agents)
+- **Orchestration**: `task()` subagent spawning (14 agents)
 - **Trend Intelligence**: `webfetch` — X, Reddit, Google Trends, Product Hunt, TechCrunch, Google News
-- **Image Generation**: flux.2-max → flux.1.1-pro → flux-schnell → IMAGE_PROMPTS.md (OpenRouter)
+- **Image Generation**: flux.2-max → gemini-3.1-flash-lite-image → gpt-5-image-mini → IMAGE_PROMPTS.md (OpenRouter)
 - **Brand**: VibeTechBee — Navy `#2F4156` · Teal `#567C8D` · Sky Blue `#C8D9E6` · Beige `#F5EFEB`
 
 ---
@@ -104,14 +106,14 @@ ln -s commands/* ~/.config/opencode/command/
 /social-post daily
 
 # 3. Review & publish
-open social-posts/YYYY-MM-DD-topic/06-CHECKLIST.md
+open D:/content/YYYY-MM-DD-topic/06-CHECKLIST.md
 ```
 
 ---
 
 <div align="center">
 
-**Built for opencode · 13 agents · 8 waves · 4 platforms · max engagement**
+**Built for opencode · 14 agents · 9 waves · 4 platforms · max engagement**
 
 </div>
 

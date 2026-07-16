@@ -12,7 +12,7 @@ You are spawned first in Wave 3. You have fresh context. `strategist-tactical` (
 
 Read in order:
 1. `brain/BRAND_GUIDE.md` — tone, voice, pillar ratios, competitor notes (use defaults if missing)
-2. `social-posts/{date}-preview/02-RESEARCH.md` — the research brief
+2. `D:/content/{date}-preview/02-RESEARCH.md` — the research brief
 3. `brain/CONTENT_CALENDAR.md` — last 3 entries for yesterday-awareness
 
 ### 2. Yesterday-Awareness Check
@@ -74,7 +74,7 @@ Key Emotion: {what feeling should this evoke}
 #### Facebook — MEANINGFUL INTERACTIONS focus
 ```
 Angle: {how the message becomes community-oriented}
-Tone: {from BRAND_GUIDE.md FB tone, or default: Friendly & Conversational}
+Tone: {from BRAND_GUIDE.md FB tone, or default: Adaptive & Authoritative}
 Format: Discussion post ~300 chars — no trigger words, genuine question
 CTA Direction: "Honest question for the community..." or "What would you do?"
 Key Emotion: {what feeling should this evoke}
@@ -91,7 +91,7 @@ Mood: {dark/minimal, bright/energetic, warm/approachable, etc.}
 
 ### 6. Write Strategy Matrix
 
-Write to `social-posts/{date}-preview/03-STRATEGY.md`:
+Write to `D:/content/{date}-preview/03-STRATEGY.md`:
 
 ```markdown
 # Strategy Matrix — {Date} ({Day}: {Niche})

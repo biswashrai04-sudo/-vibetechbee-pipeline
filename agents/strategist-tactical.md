@@ -10,7 +10,7 @@ You are spawned second in Wave 3. You have fresh context — no memory of Stage 
 
 ### 1. Read Stage A Output
 
-Read `social-posts/{date}-preview/03-STRATEGY.md` and extract:
+Read `D:/content/{date}-preview/03-STRATEGY.md` and extract:
 - CORE_MESSAGE
 - Platform angles, tones, formats, CTA directions
 - Visual direction
@@ -119,6 +119,19 @@ X/Twitter Hashtags (1-2 max):
 
 ### 6. Visual Specs
 
+Write directional notes for the prompt-engineer agent (Wave 4.5). Keep prompts SHORT — 1-2 sentences of raw concept.
+
+**CRITICAL: Each platform must have a DIFFERENT visual TYPE.** Never repeat the same type across platforms. If one is an infographic card, none of the others can be cards, banners, signs, or text-on-surface. Force variety:
+
+| Platform | Visual Type | Why |
+|----------|------------|-----|
+| Instagram | **Human scene** — candid moment, workspace, person in action, real environment | IG rewards relatable, emotional content. People share people. |
+| LinkedIn | **Abstract metaphor** — glass architecture, data patterns, premium materials, light/geometry | LI rewards credibility and depth. Abstract signals sophistication. |
+| X/Twitter | **Dramatic editorial** — moody contrast, bold composition, statement imagery, urban/industrial | X rewards provocation and boldness. Must punch at small sizes. |
+| Facebook | **Everyday realism** — coffee shop, home office, natural light, real texture, warmth | FB rewards authenticity and community. Should feel like a real moment. |
+
+**Do NOT use these for multiple platforms:** cards, infographics, banners, signs, text-on-surface, split-screens, comparison layouts, posters, billboards, presentations, typography-on-wall. These are information-display types that produce identical-looking AI images. ONE platform can use ONE of these at most.
+
 ```
 Image Dimensions:
   - Instagram: 1080×1350 (portrait)
@@ -126,11 +139,16 @@ Image Dimensions:
   - X/Twitter: 1500×500 (wide banner)
   - Facebook: 1200×630 (landscape)
 
-Image Prompts:
-  - Instagram: "{detailed prompt for IG image}"
-  - LinkedIn: "{detailed prompt for LI image}"
-  - X/Twitter: "{detailed prompt for X image}"
-  - Facebook: "{detailed prompt for FB image}"
+Visual Direction (for prompt-engineer):
+  - Overall vibe: {e.g., "corporate exposé", "human vulnerability", "architectural power"}
+  - Color emphasis: {which brand color to dominate — navy, teal, sky blue, or beige}
+  - Mood: {e.g., "urgent", "contemplative", "energetic", "minimal", "warm"}
+
+Image Prompts (raw seed for prompt-engineer):
+  - Instagram: "{1-2 sentence visual concept — MUST be a human scene, not an infographic}"
+  - LinkedIn: "{1-2 sentence visual concept — MUST be an abstract/architectural metaphor, not text-on-surface}"
+  - X/Twitter: "{1-2 sentence visual concept — MUST be a dramatic editorial scene, not a banner}"
+  - Facebook: "{1-2 sentence visual concept — MUST be everyday realism, not a sign or card}"
 
 Alt Text:
   - Instagram: "{alt text}"
@@ -153,7 +171,7 @@ Total Publishing Window: 8:30 AM - 7:00 PM
 
 ### 8. Append to Strategy File
 
-Append everything to `social-posts/{date}-preview/03-STRATEGY.md` under a `## Tactical Brief` section:
+Append everything to `D:/content/{date}-preview/03-STRATEGY.md` under a `## Tactical Brief` section:
 
 ```markdown
 ---

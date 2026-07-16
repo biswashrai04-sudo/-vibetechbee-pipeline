@@ -22,7 +22,7 @@ Example: /social-approve 2026-07-16
 
 ### 2. Find Content Folder
 
-Glob for `social-posts/{date}-*/06-CHECKLIST.md`. If multiple folders exist for the same date (unlikely), list them and ask which to approve.
+Glob for `D:/content/{date}-*/06-CHECKLIST.md`. If multiple folders exist for the same date (unlikely), list them and ask which to approve.
 
 If no folder found: error "No content found for {date}. Run /social-post daily first."
 
@@ -101,7 +101,7 @@ Publish in this order:
   3. Instagram — 11:00 AM
   4. Facebook — 7:00 PM
 
-Posts are in: social-posts/{date}-{topic}/
+Posts are in: D:/content/{date}-{topic}/
 ```
 
 ## Error Handling

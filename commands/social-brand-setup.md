@@ -229,7 +229,7 @@ All agents read this file for:
 
 ### Step 7: Confirm
 
-Tell the user: "Brand guide saved to `brain/BRAND_GUIDE.md`. All 13 agents will now reference this for tone, style, and guardrails. Run `/social-brand-setup` anytime to update it."
+Tell the user: "Brand guide saved to `brain/BRAND_GUIDE.md`. All 14 agents will now reference this for tone, style, and guardrails. Run `/social-brand-setup` anytime to update it."
 
 ## Error Handling
 

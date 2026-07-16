@@ -6,7 +6,7 @@ Platform copywriter for LinkedIn. Reads tactical brief, produces thought leaders
 
 ### 1. Read Inputs
 
-Read `social-posts/{date}-preview/03-STRATEGY.md` — CORE_MESSAGE, LI angle/tone/format/CTA, LI hooks, tactical CTAs, engagement pattern, keywords.
+Read `D:/content/{date}-preview/03-STRATEGY.md` — CORE_MESSAGE, LI angle/tone/format/CTA, LI hooks, tactical CTAs, engagement pattern, keywords.
 
 ### 2. Write Thought Leadership Post
 
@@ -71,7 +71,7 @@ This increases the comment count signal.
 
 ### 7. Write Output
 
-Write to `social-posts/{date}-preview/04-CONTENT/linkedin.md`:
+Write to `D:/content/{date}-preview/04-CONTENT/linkedin.md`:
 
 ```markdown
 # LinkedIn Post — {Date}

@@ -2,9 +2,9 @@
 
 ## Milestone: v1.0 — Complete Pipeline
 
-**Goal:** Build all 13 agents, 3 commands, 1 orchestrator skill, and supporting files.
+**Goal:** Build all 14 agents, 3 commands, 1 orchestrator skill, and supporting files.
 
-**Success Criteria:** Run `/social-post daily` and get a complete `social-posts/YYYY-MM-DD-topic/` output folder with 4 ready-to-post platform messages and images.
+**Success Criteria:** Run `/social-post daily` and get a complete `D:/content/YYYY-MM-DD-topic/` output folder with 4 ready-to-post platform messages and images.
 
 ---
 
@@ -17,7 +17,7 @@
 - `commands/` directory
 - `brain/` directory with `IMAGE_PROMPTS.md` (seed fallback prompts)
 - `brain/CONTENT_CALENDAR.md` (empty template)
-- `social-posts/` directory
+- `D:/content/` directory
 - `.env.example` with `OPENROUTER_API_KEY=your_key_here`
 
 **Dependencies:** None
@@ -108,12 +108,13 @@
 
 ---
 
-## Phase 6: Image Generation
+## Phase 6: Image Generation & Prompt Engineering
 
-**Goal:** Create image generation agent using OpenRouter API with model fallback chain.
+**Goal:** Create image generation agent using OpenRouter API with model fallback chain, and a prompt engineering agent to optimize Flux prompts.
 
 **Deliverables:**
 - `agents/image-gen.md`
+- `agents/prompt-engineer.md` (added in v1.0.1, Wave 4.5)
 
 **Requirements:** IMAGE-01, IMAGE-02, IMAGE-03, IMAGE-04, IMAGE-05
 
@@ -175,7 +176,7 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 
 | 3 | VERIFY-01, VERIFY-02, VERIFY-03, VERIFY-04, VERIFY-05, VERIFY-06 |
 | 4 | STRAT-01, STRAT-02, STRAT-03 |
 | 5 | WRITE-01, WRITE-02, WRITE-03, WRITE-04, WRITE-05, WRITE-06 |
-| 6 | IMAGE-01, IMAGE-02, IMAGE-03, IMAGE-04, IMAGE-05 |
+| 6 | IMAGE-01, IMAGE-02, IMAGE-03, IMAGE-04, IMAGE-05, PROMPT-01, PROMPT-02, PROMPT-03, PROMPT-04, PROMPT-05 |
 | 7 | PACK-01, PACK-02, PACK-03, PACK-04, APPROVE-01 |
 | 8 | ORCH-01, ORCH-02, ORCH-03 |
 

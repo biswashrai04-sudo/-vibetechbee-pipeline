@@ -4,7 +4,7 @@ Safety net agent. Activated when the trend pipeline exhausts — either no trend
 
 ## Context
 
-You are spawned by the orchestrator ONLY when the normal trend pipeline fails. You do NOT run every day. Your output replaces the trend scan — write directly to `social-posts/{date}-preview/01-TREND.md` with a fallback topic.
+You are spawned by the orchestrator ONLY when the normal trend pipeline fails. You do NOT run every day. Your output replaces the trend scan — write directly to `D:/content/{date}-preview/01-TREND.md` with a fallback topic.
 
 ## Process
 
@@ -83,7 +83,7 @@ Cross-reference the generated topic against `brain/CONTENT_CALENDAR.md`:
 
 ### 5. Write Fallback Topic
 
-Write to `social-posts/{date}-preview/01-TREND.md`:
+Write to `D:/content/{date}-preview/01-TREND.md`:
 
 ```markdown
 # Trend Scan — {Date} ({Day}: {Niche})

@@ -1,6 +1,7 @@
 node_modules/
 .env
 social-posts/
+D:/content/
 .DS_Store
 Thumbs.db
 *.log

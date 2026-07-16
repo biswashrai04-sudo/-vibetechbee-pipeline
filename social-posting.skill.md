@@ -1,6 +1,6 @@
 # social-posting
 
-VibeTechBee's multi-agent social media content pipeline orchestrator. Sequences 13 agents across 8 waves. Handles retry logic, fallback triggers, and output delivery.
+VibeTechBee's multi-agent social media content pipeline orchestrator. Sequences 14 agents across 9 waves. Handles retry logic, fallback triggers, and output delivery.
 
 ## Overview
 
@@ -18,6 +18,8 @@ Wave 2: Verification        ── verifier + fallback + researcher (parallel, r
 Wave 3: Strategy            ── matrix → tactical (sequential, fresh context)
   │
 Wave 4: Content Writing     ── IG + LI + X + FB (parallel 4x)
+  │
+Wave 4.5: Prompt Engineering ── flux prompt optimizer (solo)
   │
 Wave 5: Image Generation    ── flux visual creator (solo)
   │
@@ -43,7 +45,7 @@ Niche: Mon=Tech, Tue=AI Productivity, Wed=Apps, Thu=Business, Fri=Gadgets/Mobile
 
 Create output directory:
 ```
-social-posts/{date}-preview/
+D:/content/{date}-preview/
 ```
 
 ---
@@ -62,7 +64,7 @@ task(
 Read agents/trend-scanner.md and execute it.
 Today's date: {date}
 Today's niche: {niche} (weight this niche 2x)
-Output path: social-posts/{date}-preview/01-TREND.md
+Output path: D:/content/{date}-preview/01-TREND.md
 """
 )
 ```
@@ -77,7 +79,7 @@ task(
   description: "Select best daily topic",
   prompt: """
 Read agents/topic-selector.md and execute it.
-Read social-posts/{date}-preview/01-TREND.md
+Read D:/content/{date}-preview/01-TREND.md
 Today's niche: {niche}
 Append selection to the same file.
 """
@@ -98,7 +100,7 @@ task(
   description: "Verify topic freshness",
   prompt: """
 Read agents/freshness-verifier.md and execute it.
-Read social-posts/{date}-preview/01-TREND.md
+Read D:/content/{date}-preview/01-TREND.md
 Append verification verdict to the same file.
 """
 )
@@ -128,8 +130,8 @@ task(
   description: "Deep research on selected topic",
   prompt: """
 Read agents/researcher.md and execute it.
-Read social-posts/{date}-preview/01-TREND.md for the selected topic.
-Write to social-posts/{date}-preview/02-RESEARCH.md
+Read D:/content/{date}-preview/01-TREND.md for the selected topic.
+Write to D:/content/{date}-preview/02-RESEARCH.md
 Require minimum 3 sources, 3 stats, 2 quotes.
 """
 )
@@ -147,7 +149,7 @@ task(
 Read agents/evergreen-fallback.md and execute it.
 Today's niche: {niche}
 Today's date: {date}
-Write to social-posts/{date}-preview/01-TREND.md (overwrite).
+Write to D:/content/{date}-preview/01-TREND.md (overwrite).
 """
 )
 ```
@@ -166,8 +168,8 @@ task(
   description: "Strategy matrix — platform angles and core message",
   prompt: """
 Read agents/strategist-matrix.md and execute it.
-Read social-posts/{date}-preview/02-RESEARCH.md
-Write to social-posts/{date}-preview/03-STRATEGY.md
+Read D:/content/{date}-preview/02-RESEARCH.md
+Write to D:/content/{date}-preview/03-STRATEGY.md
 Check last 3 calendar entries for yesterday-awareness.
 Define CORE_MESSAGE and 4 platform angles.
 """
@@ -184,7 +186,7 @@ task(
   description: "Tactical brief — hooks, CTAs, engagement tactics",
   prompt: """
 Read agents/strategist-tactical.md and execute it.
-Read social-posts/{date}-preview/03-STRATEGY.md (only this file, no other context).
+Read D:/content/{date}-preview/03-STRATEGY.md (only this file, no other context).
 Append tactical brief to the same file.
 Generate hooks, CTAs, keywords, visual direction, posting schedule.
 """
@@ -200,13 +202,34 @@ Wait for completion.
 Spawn ALL 4 writers in parallel:
 
 ```
-task(agent, "IG writer", "Read agents/instagram-writer.md. Read social-posts/{date}-preview/03-STRATEGY.md. Write to social-posts/{date}-preview/04-CONTENT/instagram.md")
-task(agent, "LI writer", "Read agents/linkedin-writer.md. Read social-posts/{date}-preview/03-STRATEGY.md. Write to social-posts/{date}-preview/04-CONTENT/linkedin.md")
-task(agent, "X writer", "Read agents/x-writer.md. Read social-posts/{date}-preview/03-STRATEGY.md. Write to social-posts/{date}-preview/04-CONTENT/x.md")
-task(agent, "FB writer", "Read agents/facebook-writer.md. Read social-posts/{date}-preview/03-STRATEGY.md. Write to social-posts/{date}-preview/04-CONTENT/facebook.md")
+task(agent, "IG writer", "Read agents/instagram-writer.md. Read D:/content/{date}-preview/03-STRATEGY.md. Write to D:/content/{date}-preview/04-CONTENT/instagram.md")
+task(agent, "LI writer", "Read agents/linkedin-writer.md. Read D:/content/{date}-preview/03-STRATEGY.md. Write to D:/content/{date}-preview/04-CONTENT/linkedin.md")
+task(agent, "X writer", "Read agents/x-writer.md. Read D:/content/{date}-preview/03-STRATEGY.md. Write to D:/content/{date}-preview/04-CONTENT/x.md")
+task(agent, "FB writer", "Read agents/facebook-writer.md. Read D:/content/{date}-preview/03-STRATEGY.md. Write to D:/content/{date}-preview/04-CONTENT/facebook.md")
 ```
 
 Wait for ALL 4 to complete.
+
+---
+
+## Wave 4.5: Prompt Engineering
+
+```
+task(
+  subagent_type: "general",
+  description: "Engineer Flux-optimized image prompts",
+  prompt: """
+Read agents/prompt-engineer.md and execute it.
+Read D:/content/{date}-preview/03-STRATEGY.md for visual specs.
+Read all 4 content files in D:/content/{date}-preview/04-CONTENT/
+Read brain/BRAND_GUIDE.md for visual tone (use defaults if missing).
+Engineer photorealistic prompts optimized for Flux model.
+Write to D:/content/{date}-preview/05-IMAGES/prompts-engineered.md
+"""
+)
+```
+
+Wait for completion.
 
 ---
 
@@ -218,10 +241,9 @@ task(
   description: "Generate 4 platform images via OpenRouter",
   prompt: """
 Read agents/image-gen.md and execute it.
-Read social-posts/{date}-preview/03-STRATEGY.md for visual specs.
-Read all 4 content files in social-posts/{date}-preview/04-CONTENT/
+Read D:/content/{date}-preview/05-IMAGES/prompts-engineered.md for prompts.
 Read .env for OPENROUTER_API_KEY
-Generate images and save to social-posts/{date}-preview/05-IMAGES/
+Generate images and save to D:/content/{date}-preview/05-IMAGES/
 Write prompts.md to same directory.
 """
 )
@@ -239,15 +261,15 @@ task(
   description: "Package output, create CHECKLIST, update calendar",
   prompt: """
 Read agents/packager.md and execute it.
-Read all files in social-posts/{date}-preview/
+Read all files in D:/content/{date}-preview/
 Cross-check CORE_MESSAGE across all 4 posts.
-Write social-posts/{date}-preview/06-CHECKLIST.md
+Write D:/content/{date}-preview/06-CHECKLIST.md
 Update brain/CONTENT_CALENDAR.md
 """
 )
 ```
 
-Wait for completion. Rename folder: `social-posts/{date}-preview/` → `social-posts/{date}-{topic-slug}/`
+Wait for completion. Rename folder: `D:/content/{date}-preview/` → `D:/content/{date}-{topic-slug}/`
 
 ---
 
@@ -275,8 +297,8 @@ Publish in order:
   3. Instagram — 11:00 AM
   4. Facebook — 7:00 PM
 
-Output: social-posts/{date}-{topic}/
-Check: social-posts/{date}-{topic}/06-CHECKLIST.md
+Output: D:/content/{date}-{topic}/
+Check: D:/content/{date}-{topic}/06-CHECKLIST.md
 Approve: /social-approve {date}
 ```
 
@@ -294,6 +316,7 @@ Approve: /social-approve {date}
 | Strategist Stage B fails | Continue with Stage A only — writers use basic hooks/CTAs |
 | Any 1 writer fails | Continue with remaining writers. Flag in packager. |
 | All 4 writers fail | Fatal — no content to deliver. Abort. |
+| Prompt engineer fails | Continue — image-gen falls back to raw strategist prompts |
 | Image gen fails (all models) | Continue — packager notes missing images, CHECKLIST.md has prompts for manual gen |
 | Packager fails | Manual: create CHECKLIST.md from existing files. Do not abort. |
 

@@ -10,7 +10,7 @@ You run after `topic-selector` and before `researcher`. You are the quality gate
 
 ### 1. Read Inputs
 
-Read `social-posts/{date}-preview/01-TREND.md` to extract the selected topic.
+Read `D:/content/{date}-preview/01-TREND.md` to extract the selected topic.
 
 ### 2. Freshness Check
 
@@ -46,7 +46,7 @@ if NOT sentiment_ok:
 
 ### 5. Write Result
 
-Append to `social-posts/{date}-preview/01-TREND.md`:
+Append to `D:/content/{date}-preview/01-TREND.md`:
 
 ```markdown
 ---

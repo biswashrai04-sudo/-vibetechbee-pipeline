@@ -45,7 +45,15 @@
 - [ ] IMAGE-02: Generates 1 image per platform at correct dimensions: IG 1080×1350, LI 1200×627, X 1500×500, FB 1200×630
 - [ ] IMAGE-03: Model fallback chain: black-forest-labs/flux.2-max → flux.1.1-pro → flux-schnell → IMAGE_PROMPTS.md
 - [ ] IMAGE-04: Brand style applied from BRAND_GUIDE.md with alt text per image
-- [ ] IMAGE-05: Outputs `05-IMAGES/{prompts.md, *.png}`
+- [ ] IMAGE-05: Outputs `05-IMAGES/{prompts-engineered.md, prompts.md, *.png}`
+
+### Prompt Engineering
+
+- [ ] PROMPT-01: Reads strategist visual specs + brand guide + all 4 content files
+- [ ] PROMPT-02: Transforms raw specs into Flux-optimized photorealistic prompts
+- [ ] PROMPT-03: Applies quality modifiers (photorealistic, 8K, cinematic lighting) and anti-vector cues
+- [ ] PROMPT-04: Integrates brand colors and composition framing per platform dimension
+- [ ] PROMPT-05: Outputs `05-IMAGES/prompts-engineered.md`
 
 ### Packaging & Approval
 
@@ -57,7 +65,7 @@
 
 ### Orchestrator
 
-- [ ] ORCH-01: `social-posting.skill.md` sequences all 8 waves with proper error handling
+- [ ] ORCH-01: `social-posting.skill.md` sequences all 9 waves with proper error handling
 - [ ] ORCH-02: `/social-post daily` triggers the full pipeline
 - [ ] ORCH-03: Parallel agents within waves (Wave 1, 2, 4), sequential between waves
 
@@ -106,6 +114,11 @@
 | IMAGE-03 | 6 | — | — |
 | IMAGE-04 | 6 | — | — |
 | IMAGE-05 | 6 | — | — |
+| PROMPT-01 | 4.5 | — | — |
+| PROMPT-02 | 4.5 | — | — |
+| PROMPT-03 | 4.5 | — | — |
+| PROMPT-04 | 4.5 | — | — |
+| PROMPT-05 | 4.5 | — | — |
 | PACK-01 | 7 | — | — |
 | PACK-02 | 7 | — | — |
 | PACK-03 | 7 | — | — |

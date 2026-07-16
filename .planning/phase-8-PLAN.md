@@ -1,7 +1,7 @@
 # Phase 8: Orchestrator — PLAN.md
 
 ## Goal
-Create the master skill file and daily trigger command that ties all 13 agents together.
+Create the master skill file and daily trigger command that ties all 14 agents together.
 
 ## Task List
 
@@ -12,7 +12,7 @@ Create the master skill file and daily trigger command that ties all 13 agents t
 
 ## Verification
 
-- [ ] Skill sequences all 8 waves properly
+- [ ] Skill sequences all 9 waves properly
 - [ ] Parallel spawns for Wave 1, 2, 4 agents
 - [ ] Sequential flow between waves
 - [ ] Retry loop for freshness verifier (max 3)

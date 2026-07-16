@@ -11,7 +11,7 @@ You are spawned by the orchestrator skill during Wave 1 (Trend Discovery). You r
 ### 1. Read Inputs
 
 Read these files:
-- `social-posts/{date}-preview/01-TREND.md` — the scanner's output
+- `D:/content/{date}-preview/01-TREND.md` — the scanner's output
 - `brain/CONTENT_CALENDAR.md` — 7-day history (skip if missing)
 - `brain/BRAND_GUIDE.md` — content pillar ratios (skip if missing, use defaults)
 
@@ -73,7 +73,7 @@ Validate the winner:
 
 ### 7. Write Selection
 
-Append to `social-posts/{date}-preview/01-TREND.md`:
+Append to `D:/content/{date}-preview/01-TREND.md`:
 
 ```markdown
 ---

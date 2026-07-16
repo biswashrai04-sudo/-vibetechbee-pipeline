@@ -1,6 +1,6 @@
 # /social-post daily
 
-Run the full VibeTechBee daily content pipeline. Triggers the orchestrator skill which sequences 13 agents across 8 waves.
+Run the full VibeTechBee daily content pipeline. Triggers the orchestrator skill which sequences 14 agents across 9 waves.
 
 ## Execution
 
@@ -15,6 +15,7 @@ The skill handles:
 - Wave 2: Freshness verification + research (with retry loop + evergreen fallback)
 - Wave 3: Two-stage strategy (matrix → tactical)
 - Wave 4: 4 parallel platform writers
+- Wave 4.5: Prompt engineering for Flux-optimized image prompts
 - Wave 5: Image generation via OpenRouter
 - Wave 6: Packaging + cross-check + calendar update
 - Wave 7: Summary delivery + approval instructions
@@ -27,7 +28,7 @@ The skill handles:
 ## Output
 
 ```
-social-posts/YYYY-MM-DD-topic-slug/
+D:/content/YYYY-MM-DD-topic-slug/
 ├── 01-TREND.md
 ├── 02-RESEARCH.md
 ├── 03-STRATEGY.md
@@ -37,7 +38,8 @@ social-posts/YYYY-MM-DD-topic-slug/
 │   ├── x.md
 │   └── facebook.md
 ├── 05-IMAGES/
-│   ├── prompts.md
+│   ├── prompts-engineered.md  Engineered Flux prompts (by prompt-engineer)
+│   ├── prompts.md         Flux image prompts (generation log)
 │   └── *.png
 └── 06-CHECKLIST.md
 ```

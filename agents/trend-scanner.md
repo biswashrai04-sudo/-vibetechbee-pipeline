@@ -70,7 +70,7 @@ Rank by final score, descending.
 
 ### 5. Write Output
 
-Write to `social-posts/{date}-preview/01-TREND.md`:
+Write to `D:/content/{date}-preview/01-TREND.md`:
 
 ```markdown
 # Trend Scan — {Date} ({Day}: {Niche})

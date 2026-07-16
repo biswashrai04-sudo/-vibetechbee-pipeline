@@ -1,22 +1,18 @@
 # image-gen
 
-Visual creator agent for Wave 5. Generates 1 image per platform (4 total) using OpenRouter API with model fallback chain. Saves PNGs and writes prompts.md.
+Visual creator agent for Wave 5. Generates 1 image per platform (4 total) using OpenRouter API with model fallback chain. Reads engineered prompts from prompt-engineer agent. Saves PNGs and writes prompts.md.
 
 ## Context
 
-You run after all 4 writers complete. Read their content for context and the tactical brief for visual specs. You do NOT run in parallel with anything.
+You run after prompt-engineer (Wave 4.5) completes. Read the engineered prompts and generate images. You do NOT own the prompt engineering — prompt-engineer is responsible for that.
 
 ## Process
 
 ### 1. Read Inputs
 
-- `social-posts/{date}-preview/03-STRATEGY.md` — visual direction, image prompts, dimensions, alt text
+- `D:/content/{date}-preview/05-IMAGES/prompts-engineered.md` — engineered Flux-optimized prompts, dimensions, alt text
+- `D:/content/{date}-preview/03-STRATEGY.md` — fallback: visual specs (if prompts-engineered.md missing or prompt-engineer failed)
 - `brain/BRAND_GUIDE.md` — colors, visual style (use defaults if missing)
-- All 4 content files for context:
-  - `social-posts/{date}-preview/04-CONTENT/instagram.md`
-  - `social-posts/{date}-preview/04-CONTENT/linkedin.md`
-  - `social-posts/{date}-preview/04-CONTENT/x.md`
-  - `social-posts/{date}-preview/04-CONTENT/facebook.md`
 
 ### 2. Read API Key
 
@@ -29,23 +25,38 @@ If `.env` doesn't exist or OPENROUTER_API_KEY is missing/empty:
 - Skip API calls entirely
 - Go directly to IMAGE_PROMPTS.md fallback (Step 5)
 
-### 3. Prepare Image Prompts
+### 3. Read Engineered Prompts
 
-For each platform, construct a prompt using:
-- The image prompt text from the tactical brief
-- Brand colors appended: "Navy #2F4156, Teal #567C8D, Sky Blue #C8D9E6, Beige #F5EFEB"
-- Platform context (what the post is about)
+From `D:/content/{date}-preview/05-IMAGES/prompts-engineered.md`, extract per platform:
+- The full engineered prompt text
+- Dimensions
+- Alt text
+
+If `prompts-engineered.md` does not exist (prompt-engineer failed):
+- Fall back to raw image prompts from `D:/content/{date}-preview/03-STRATEGY.md`
+- Note in output: "Prompt engineer did not run — using raw strategist prompts"
 
 | Platform | Dimensions | Prompt Source |
 |----------|------------|---------------|
-| Instagram | 1080×1350 | Tactical brief IG prompt |
-| LinkedIn | 1200×627 | Tactical brief LI prompt |
-| X/Twitter | 1500×500 | Tactical brief X prompt |
-| Facebook | 1200×630 | Tactical brief FB prompt |
+| Instagram | 1080×1350 | prompts-engineered.md → fallback: strategy |
+| LinkedIn | 1200×627 | prompts-engineered.md → fallback: strategy |
+| X/Twitter | 1500×500 | prompts-engineered.md → fallback: strategy |
+| Facebook | 1200×630 | prompts-engineered.md → fallback: strategy |
 
 ### 4. Call OpenRouter API
 
-For each platform image, use `webfetch` with:
+For each platform, use `webfetch` with a **different model** to ensure visual variety. Prioritize cheapest models first:
+
+| Platform | Primary Model | Cost | Why |
+|----------|-------------|------|-----|
+| Instagram | `openai/gpt-5-image-mini` | $0.008 | Cheapest, good for portrait |
+| LinkedIn | `google/gemini-3.1-flash-lite-image` | $0.03 | Clean professional look |
+| X/Twitter | `openai/gpt-5-image-mini` | $0.008 | Cheapest, wide banner less detail-critical |
+| Facebook | `google/gemini-3.1-flash-lite-image` | $0.03 | Warm community feel |
+
+If a platform's primary model fails, fall back to the next available model in the chain:
+
+If a platform's primary model fails, fall back to the next available model in the chain:
 
 ```
 POST https://openrouter.ai/api/v1/chat/completions
@@ -56,11 +67,11 @@ Headers:
 
 Body (JSON):
 {
-  "model": "black-forest-labs/flux.2-max",
+  "model": "{platform-specific model}",
   "messages": [
     {
       "role": "user",
-      "content": "{platform image prompt}"
+      "content": "{engineered platform image prompt from prompts-engineered.md}"
     }
   ],
   "max_tokens": 4096
@@ -69,14 +80,14 @@ Body (JSON):
 
 **Model Fallback Chain:**
 
-Try models in order. If one fails (credits exhausted, rate limited, or unavailable), try the next:
+If a platform's assigned model fails, try the next model in the chain. Continue until one succeeds or all fail:
 
-| Priority | Model | Attempt |
-|----------|-------|---------|
-| 1 | `black-forest-labs/flux.2-max` | Primary |
-| 2 | `black-forest-labs/flux.1.1-pro` | Fallback 1 |
-| 3 | `black-forest-labs/flux-schnell` | Fallback 2 |
-| 4 | None — skip to `brain/IMAGE_PROMPTS.md` | Emergency |
+| Priority | Model | Cost | Used For |
+|----------|-------|------|----------|
+| 1 | `openai/gpt-5-image-mini` | $0.008 | Instagram (primary), X/Twitter (primary), fallback |
+| 2 | `google/gemini-3.1-flash-lite-image` | $0.03 | LinkedIn (primary), Facebook (primary), fallback |
+| 3 | `black-forest-labs/flux.2-max` | ~$0.07 | Fallback for any platform (best quality, most expensive) |
+| 4 | None — skip to `brain/IMAGE_PROMPTS.md` | Free | Emergency |
 
 **Error detection per attempt:**
 - HTTP 402 → credits exhausted, try next model
@@ -95,10 +106,10 @@ Extract image data from the API response. The response structure varies by model
 
 If image URLs are returned, save them to:
 ```
-social-posts/{date}-preview/05-IMAGES/instagram-1080x1350.png
-social-posts/{date}-preview/05-IMAGES/linkedin-1200x627.png
-social-posts/{date}-preview/05-IMAGES/x-1500x500.png
-social-posts/{date}-preview/05-IMAGES/facebook-1200x630.png
+D:/content/{date}-preview/05-IMAGES/instagram-1080x1350.png
+D:/content/{date}-preview/05-IMAGES/linkedin-1200x627.png
+D:/content/{date}-preview/05-IMAGES/x-1500x500.png
+D:/content/{date}-preview/05-IMAGES/facebook-1200x630.png
 ```
 
 ### 6. IMAGE_PROMPTS.md Fallback
@@ -141,6 +152,7 @@ Even when API succeeds, save the prompts used:
 # Image Prompts — {Date} ({Topic})
 
 ## Status: GENERATED
+Prompt source: {engineered (prompt-engineer) or raw (strategist fallback)}
 Model chain: {models that succeeded}
 Models attempted: [{list}]
 Models that failed: [{list} or "none"]
@@ -180,8 +192,8 @@ If any validation fails, flag in output.
 
 ### 9. Write Output
 
-Save prompts.md to `social-posts/{date}-preview/05-IMAGES/prompts.md`.
-Save images to `social-posts/{date}-preview/05-IMAGES/`.
+Save prompts.md to `D:/content/{date}-preview/05-IMAGES/prompts.md`.
+Save images to `D:/content/{date}-preview/05-IMAGES/`.
 
 ## Error Handling
 

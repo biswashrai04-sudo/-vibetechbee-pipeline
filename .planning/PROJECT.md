@@ -2,10 +2,10 @@
 
 ## What This Is
 
-A daily multi-agent content creation pipeline that generates ready-to-post social media content across **4 platforms** — Instagram, LinkedIn, X, and Facebook. 13 specialized AI agents work across 8 sequential waves to scan trends, research topics, craft strategy, write platform-optimized copy, generate images, and package everything into a ready-to-review checklist.
+A daily multi-agent content creation pipeline that generates ready-to-post social media content across **4 platforms** — Instagram, LinkedIn, X, and Facebook. 14 specialized AI agents work across 9 sequential waves to scan trends, research topics, craft strategy, write platform-optimized copy, engineer optimized prompts, generate images, and package everything into a ready-to-review checklist.
 
 **Runtime:** opencode (AI runtime) — uses `task()` subagent spawning  
-**Output:** `social-posts/YYYY-MM-DD-topic/` — human approval gate, no auto-posting  
+**Output:** `D:/content/YYYY-MM-DD-topic/` — human approval gate, no auto-posting  
 **Standalone:** Portable project folder, git-tracked, opencode as runtime only
 
 ## Core Value
@@ -33,7 +33,7 @@ Social media managers and content creators in the tech niche running VibeTechBee
 
 ## Architecture
 
-**13 agents across 8 waves:**
+**14 agents across 9 waves:**
 
 | Wave | Phase | Agents | Mode |
 |------|-------|--------|------|
@@ -42,6 +42,7 @@ Social media managers and content creators in the tech niche running VibeTechBee
 | 2 | Verification & Research | Freshness Verifier, Evergreen Fallback, Researcher | Parallel |
 | 3 | Strategy | Matrix Strategist → Tactical Strategist | Sequential |
 | 4 | Content Writing | IG Writer, LI Writer, X Writer, FB Writer | Parallel (4x) |
+| 4.5 | Prompt Engineering | Flux Prompt Optimizer | Solo |
 | 5 | Image Generation | Flux Visual Creator | Solo |
 | 6 | Package & Deliver | Delivery Manager | Solo |
 | 7 | Human Approval | User | Manual gate |
@@ -84,7 +85,7 @@ Social media managers and content creators in the tech niche running VibeTechBee
 - [ ] PIPELINE-13: Image gen calls OpenRouter API with model chain, saves PNGs per platform
 - [ ] PIPELINE-14: Packager organizes output, creates CHECKLIST.md, updates CONTENT_CALENDAR.md
 - [ ] PIPELINE-15: Approval command logs approved posts to calendar
-- [ ] PIPELINE-16: Orchestrator skill sequences all 8 waves with proper error handling
+- [ ] PIPELINE-16: Orchestrator skill sequences all 9 waves with proper error handling
 
 ### Out of Scope
 

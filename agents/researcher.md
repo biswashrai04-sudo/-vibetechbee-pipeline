@@ -10,7 +10,7 @@ You run after `freshness-verifier` passes the topic. You run in parallel with th
 
 ### 1. Read Inputs
 
-Read `social-posts/{date}-preview/01-TREND.md` for the selected topic.
+Read `D:/content/{date}-preview/01-TREND.md` for the selected topic.
 Read `brain/BRAND_GUIDE.md` for competitor references (skip if missing).
 
 ### 2. Research Protocol
@@ -64,7 +64,7 @@ For every statistic and quote:
 
 ### 5. Write Research Brief
 
-Write to `social-posts/{date}-preview/02-RESEARCH.md`:
+Write to `D:/content/{date}-preview/02-RESEARCH.md`:
 
 ```markdown
 # Research Brief — {Topic}

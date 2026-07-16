@@ -6,7 +6,7 @@ Platform copywriter for X/Twitter. Reads tactical brief, produces tweet or threa
 
 ### 1. Read Inputs
 
-Read `social-posts/{date}-preview/03-STRATEGY.md` — CORE_MESSAGE, X angle/tone/format/CTA, X hooks, tactical CTAs, engagement pattern, hashtags.
+Read `D:/content/{date}-preview/03-STRATEGY.md` — CORE_MESSAGE, X angle/tone/format/CTA, X hooks, tactical CTAs, engagement pattern, hashtags.
 
 ### 2. Choose Format
 
@@ -85,7 +85,7 @@ Count method: count every character including spaces, punctuation, emojis, and h
 
 ### 7. Write Output
 
-Write to `social-posts/{date}-preview/04-CONTENT/x.md`:
+Write to `D:/content/{date}-preview/04-CONTENT/x.md`:
 
 ```markdown
 # X/Twitter Post — {Date}
