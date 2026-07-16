@@ -2,7 +2,7 @@
 
 ## Current State
 
-- **Active Phase:** None (just initialized)
+- **Active Phase:** 1 (Brand Setup)
 - **Active Plan:** None
 - **Milestone:** v1.0 — Complete Pipeline
 
