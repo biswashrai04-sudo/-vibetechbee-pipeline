@@ -43,7 +43,7 @@
 
 - [ ] IMAGE-01: Reads OPENROUTER_API_KEY from `.env`, POSTs to `https://openrouter.ai/api/v1/chat/completions`
 - [ ] IMAGE-02: Generates 1 image per platform at correct dimensions: IG 1080×1350, LI 1200×627, X 1500×500, FB 1200×630
-- [ ] IMAGE-03: Model fallback chain: google/gemini-2.5-flash-image → gemini-3.1-flash-lite → gemini-3.1-flash → IMAGE_PROMPTS.md. ⚠ No free image models — credits required.
+- [ ] IMAGE-03: Model fallback chain: black-forest-labs/flux.2-max → flux.1.1-pro → flux-schnell → IMAGE_PROMPTS.md
 - [ ] IMAGE-04: Brand style applied from BRAND_GUIDE.md with alt text per image
 - [ ] IMAGE-05: Outputs `05-IMAGES/{prompts.md, *.png}`
 

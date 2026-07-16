@@ -31,7 +31,7 @@ Everything runs on **opencode** as the AI runtime. Nothing auto-posts — you al
 | 2 | Verification & Research | Freshness Verifier, Evergreen Fallback, Researcher | ✓ |
 | 3 | Strategy | Matrix strategist → Tactical strategist | Sequential |
 | 4 | Content Writing | IG Writer, LI Writer, X Writer, FB Writer | ✓ (4x) |
-| 5 | Image Generation | Gemini Visual Creator | — |
+| 5 | Image Generation | Flux Visual Creator | — |
 | 6 | Package & Deliver | Delivery Manager | — |
 | 7 | Human Approval | *You* | — |
 
@@ -77,7 +77,7 @@ social-posts/2026-07-16-ai-productivity-tools/
 │   ├── x.md              Tweet/thread (char audited)
 │   └── facebook.md        Community post (trigger-free)
 ├── 05-IMAGES/
-│   ├── prompts.md         Image prompts
+│   ├── prompts.md         Flux image prompts
 │   └── *.png              Platform-sized images
 └── 06-CHECKLIST.md        Previews + optimal posting order
 ```
@@ -89,7 +89,7 @@ social-posts/2026-07-16-ai-productivity-tools/
 - **Runtime**: [opencode](https://opencode.ai)
 - **Orchestration**: `task()` subagent spawning (13 agents)
 - **Trend Intelligence**: `webfetch` — X, Reddit, Google Trends, Product Hunt, TechCrunch, Google News
-- **Image Generation**: Gemini 2.5 Flash Image → 3.1 Flash Lite → 3.1 Flash → IMAGE_PROMPTS.md (OpenRouter, no free tier)
+- **Image Generation**: flux.2-max → flux.1.1-pro → flux-schnell → IMAGE_PROMPTS.md (OpenRouter)
 - **Brand**: VibeTechBee — Navy `#2F4156` · Teal `#567C8D` · Sky Blue `#C8D9E6` · Beige `#F5EFEB`
 
 ---

@@ -1,6 +1,6 @@
 # image-gen
 
-Visual creator agent for Wave 5. Generates 1 image per platform (4 total) using OpenRouter API with Gemini image models and fallback chain. Saves PNGs and writes prompts.md.
+Visual creator agent for Wave 5. Generates 1 image per platform (4 total) using OpenRouter API with model fallback chain. Saves PNGs and writes prompts.md.
 
 ## Context
 
@@ -45,7 +45,7 @@ For each platform, construct a prompt using:
 
 ### 4. Call OpenRouter API
 
-For each platform image, use `webfetch` with the Gemini image generation API:
+For each platform image, use `webfetch` with:
 
 ```
 POST https://openrouter.ai/api/v1/chat/completions
@@ -56,44 +56,42 @@ Headers:
 
 Body (JSON):
 {
-  "model": "google/gemini-2.5-flash-image",
+  "model": "black-forest-labs/flux.2-max",
   "messages": [
     {
       "role": "user",
-      "content": [
-        {
-          "type": "text",
-          "text": "Generate an image: {platform image prompt}. Style: {visual style from BRAND_GUIDE.md}. Colors: Navy #2F4156, Teal #567C8D, Sky Blue #C8D9E6, Beige #F5EFEB. Dimensions: {platform dimensions}."
-        }
-      ]
+      "content": "{platform image prompt}"
     }
-  ]
+  ],
+  "max_tokens": 4096
 }
 ```
 
-The Gemini models can return images inline. Parse the response for:
-- `choices[0].message.content` — may contain image data or URLs
-- Look for image/png or base64 encoded image data in the response
-
 **Model Fallback Chain:**
 
-Try models in order. If one fails (credits exhausted, rate limited, 402/429), try the next:
+Try models in order. If one fails (credits exhausted, rate limited, or unavailable), try the next:
 
-| Priority | Model | Pricing (prompt/comp per token) | Notes |
-|----------|-------|----------|-------|
-| 1 | `google/gemini-2.5-flash-image` | $0.0000003 / $0.0000025 | Cheapest image model |
-| 2 | `google/gemini-3.1-flash-lite-image` | $0.00000025 / $0.0000015 | Nano Banana 2 Lite |
-| 3 | `google/gemini-3.1-flash-image` | $0.0000005 / $0.000003 | Nano Banana 2 — most capable |
-| 4 | None — skip to `brain/IMAGE_PROMPTS.md` | Free (no API) | Emergency text-only fallback |
+| Priority | Model | Attempt |
+|----------|-------|---------|
+| 1 | `black-forest-labs/flux.2-max` | Primary |
+| 2 | `black-forest-labs/flux.1.1-pro` | Fallback 1 |
+| 3 | `black-forest-labs/flux-schnell` | Fallback 2 |
+| 4 | None — skip to `brain/IMAGE_PROMPTS.md` | Emergency |
 
-⚠️ There are NO free image generation models on OpenRouter. All image models cost money.
-If you have zero credits, the pipeline falls back to IMAGE_PROMPTS.md for manual generation.
+**Error detection per attempt:**
+- HTTP 402 → credits exhausted, try next model
+- HTTP 429 → rate limited, try next model
+- HTTP 400 with "model not found" → try next model
+- Any 5xx → try next model
+- Timeout (>30s) → try next model
+
+If ALL 3 models fail for ALL 4 images → go to IMAGE_PROMPTS.md fallback (Step 5)
 
 ### 5. Save Images
 
 Extract image data from the API response. The response structure varies by model, look for:
 - `choices[0].message.content` (text-based image URLs in newer formats)
-- Note: Gemini models return images inline in the response content
+- Note: flux models may return image URLs, not base64
 
 If image URLs are returned, save them to:
 ```
@@ -113,7 +111,7 @@ Read `brain/IMAGE_PROMPTS.md` and select appropriate prompts per niche. Generate
 # Image Prompts — {Date} ({Topic})
 
 ## Status: FALLBACK MODE
-> All image models unavailable or credits exhausted. Use these prompts with any text-to-image tool.
+> All flux models unavailable or credits exhausted. Use these prompts with any text-to-image tool.
 
 ## Instagram (1080×1350)
 {prompt from IMAGE_PROMPTS.md}
@@ -189,6 +187,6 @@ Save images to `social-posts/{date}-preview/05-IMAGES/`.
 
 - No `.env` file: log "No .env found, using IMAGE_PROMPTS.md fallback"
 - API key missing: log "OPENROUTER_API_KEY not set, using fallback"
-- All models fail: log "All image models exhausted, using IMAGE_PROMPTS.md"
+- All models fail: log "All flux models exhausted, using IMAGE_PROMPTS.md"
 - Image save fails: log "Failed to save {platform} image: {error}"
 - Partial success (some images generated, some failed): save what succeeded, note failures

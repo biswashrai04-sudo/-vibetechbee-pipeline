@@ -677,7 +677,7 @@
         <div class="flow-box" style="border-color:var(--primary);">
           <div class="fb-title">Wave 5</div>
           <div class="fb-sub">Images</div>
-          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">Gemini via OpenRouter</div>
+          <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">Flux.2 Max via OpenRouter</div>
         </div>
         <div class="flow-box" style="border-color:var(--primary);">
           <div class="fb-title">Wave 6</div>
@@ -821,11 +821,11 @@
         <div class="wave-header">
           <div class="wave-num">5</div>
           <div class="wave-name">Image Generation</div>
-          <span class="wave-tag">Gemini via OpenRouter</span>
+          <span class="wave-tag">Flux.2 Max via OpenRouter</span>
         </div>
-        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Generates 1 image per platform (4 total). Calls OpenRouter API: POST to https://openrouter.ai/api/v1/chat/completions with Gemini image model chain. Reads OPENROUTER_API_KEY from .env. Per-platform dimensions: IG 1080×1350, LI 1200×627, X 1500×500, FB 1200×630. Brand style from BRAND_GUIDE.md. Alt text per image. Fallback chain: gemini-2.5-flash-image → gemini-3.1-flash-lite → gemini-3.1-flash → IMAGE_PROMPTS.md. ⚠ No free image models — credits required.</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Generates 1 image per platform (4 total). Calls OpenRouter API: POST to https://openrouter.ai/api/v1/chat/completions with model chain. Reads OPENROUTER_API_KEY from .env. Per-platform dimensions: IG 1080×1350, LI 1200×627, X 1500×500, FB 1200×630. Brand style from BRAND_GUIDE.md. Alt text per image. Fallback chain: black-forest-labs/flux.2-max → flux.1.1-pro → flux-schnell → IMAGE_PROMPTS.md if all exhausted.</div>
         <div class="wave-agents">
-          <div class="wave-agent"><div class="wa-name">social-image-gen</div><div class="wa-desc">Visual Creator — gemini-2.5-flash → 3.1-lite → 3.1-flash → text fallback</div><div class="wa-tools">webfetch · gemini · prompts fallback</div></div>
+          <div class="wave-agent"><div class="wa-name">social-image-gen</div><div class="wa-desc">Visual Creator — flux.2-max → 1.1-pro → schnell → text fallback</div><div class="wa-tools">webfetch · flux.2-max · 1.1-pro · schnell · prompts fallback</div></div>
         </div>
       </div>
 

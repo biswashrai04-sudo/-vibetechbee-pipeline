@@ -42,7 +42,7 @@ Social media managers and content creators in the tech niche running VibeTechBee
 | 2 | Verification & Research | Freshness Verifier, Evergreen Fallback, Researcher | Parallel |
 | 3 | Strategy | Matrix Strategist → Tactical Strategist | Sequential |
 | 4 | Content Writing | IG Writer, LI Writer, X Writer, FB Writer | Parallel (4x) |
-| 5 | Image Generation | Gemini Visual Creator | Solo |
+| 5 | Image Generation | Flux Visual Creator | Solo |
 | 6 | Package & Deliver | Delivery Manager | Solo |
 | 7 | Human Approval | User | Manual gate |
 
@@ -56,7 +56,7 @@ Social media managers and content creators in the tech niche running VibeTechBee
 |----------|-----------|---------|
 | Split strategist into Stage A+B | Prevent context overload in a single agent | Two-stage with fresh context per stage |
 | Wave 2 includes retry loop | Fresh topics that fail freshness check should retry, not fail immediately | Max 3 retries before evergreen fallback |
-| Image gen fallback chain | No free image models on OpenRouter, so models escalate | gemini-2.5-flash-image → gemini-3.1-flash-lite → gemini-3.1-flash → IMAGE_PROMPTS.md |
+| Image gen fallback chain | Different models have different availability/cost | flux.2-max → flux.1.1-pro → flux-schnell → IMAGE_PROMPTS.md |
 | Brand setup as Wave 0 (separate command) | Setup runs once, not daily | `/social-brand-setup` outputs BRAND_GUIDE.md |
 | Packager does cross-writer consistency | Writers run parallel, need final check | Packager cross-checks all posts against CORE_MESSAGE |
 | GitHub Pages for architecture docs | architecture.html is a static asset | Hosted at biswashrai04-sudo.github.io/-vibetechbee-pipeline/ |
