@@ -55,9 +55,9 @@
     cursor: pointer;
     font-family: 'Inter', sans-serif;
     box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  .toolbar button:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(212, 175, 55, 0.5); }
+  .toolbar button:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 6px 30px rgba(212, 175, 55, 0.5); }
 
   .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px; }
 
@@ -73,7 +73,9 @@
     width: 48px; height: 48px; background: var(--gradient); border-radius: 12px;
     display: flex; align-items: center; justify-content: center; font-size: 24px;
     box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
+  .logo-icon:hover { transform: scale(1.15); box-shadow: 0 6px 30px rgba(212, 175, 55, 0.5); }
   .header h1 {
     font-size: 36px; font-weight: 800;
     background: var(--gradient);
@@ -84,7 +86,9 @@
   .badge {
     padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 600;
     background: var(--card); border: 1px solid var(--card-border); color: var(--text-muted);
+    transition: transform 0.25s ease, border-color 0.25s ease;
   }
+  .badge:hover { transform: scale(1.12); }
   .badge.gold { border-color: var(--gold); color: var(--gold); }
   .badge.light { border-color: var(--gold-light); color: var(--gold-light); }
   .badge.amber { border-color: var(--amber); color: var(--amber); }
@@ -94,7 +98,8 @@
     display: flex; justify-content: center; gap: 40px; padding: 24px 0;
     flex-wrap: wrap; border-bottom: 1px solid var(--card-border); margin-bottom: 40px;
   }
-  .stat-item { text-align: center; }
+  .stat-item { text-align: center; transition: transform 0.25s ease; }
+  .stat-item:hover { transform: scale(1.1); }
   .stat-num { font-size: 28px; font-weight: 800; color: var(--gold); }
   .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
 
@@ -206,7 +211,9 @@
     font-size: 10px;
     color: var(--text-muted);
     text-align: center;
+    transition: transform 0.25s ease, border-color 0.25s ease;
   }
+  .flow-sub:hover { transform: scale(1.06); border-color: var(--gold); }
   .flow-sub strong { color: var(--gold-light); display: block; font-size: 11px; }
 
   .flow-label {
@@ -245,6 +252,13 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     color: var(--gold-light);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    cursor: default;
+  }
+  .server-box .s-cmd:hover {
+    transform: scale(1.08);
+    border-color: var(--gold);
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.2);
   }
 
   /* ───── Wave Detail ───── */
@@ -278,6 +292,12 @@
     border: 1px solid var(--card-border);
     border-radius: 6px;
     padding: 10px;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .wave-agent:hover {
+    transform: scale(1.03);
+    border-color: var(--gold);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.12);
   }
   .wa-name { font-size: 12px; font-weight: 700; color: var(--gold-light); }
   .wa-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
@@ -438,21 +458,25 @@
     .stat-item:nth-child(6) { animation-delay: 0.65s; }
 
     .wave-item {
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .wave-item:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.015);
       border-color: var(--gold);
-      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.1);
+      box-shadow: 0 12px 40px rgba(212, 175, 55, 0.18);
     }
 
     .card {
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease, box-shadow 0.3s ease;
     }
-    .card:hover {
-      transform: translateY(-4px);
+    .card-hover:nth-child(1) { animation-delay: 0.0s; }
+    .card-hover:nth-child(2) { animation-delay: 0.1s; }
+    .card-hover:nth-child(3) { animation-delay: 0.2s; }
+    .card-hover:nth-child(4) { animation-delay: 0.3s; }
+    .card-hover:hover {
+      transform: translateY(-4px) scale(1.04);
       border-color: var(--gold);
-      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.12);
+      box-shadow: 0 12px 36px rgba(212, 175, 55, 0.18);
     }
 
     .wave-item {
@@ -469,31 +493,27 @@
 
     .card-hover {
       animation: fadeInUp 0.4s ease-out backwards;
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card-hover:nth-child(1) { animation-delay: 0.0s; }
-    .card-hover:nth-child(2) { animation-delay: 0.1s; }
-    .card-hover:nth-child(3) { animation-delay: 0.2s; }
-    .card-hover:nth-child(4) { animation-delay: 0.3s; }
-    .card-hover:hover {
-      transform: translateY(-4px);
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease, box-shadow 0.3s ease;
+      transform: translateY(-4px) scale(1.04);
       border-color: var(--gold);
       box-shadow: 0 8px 30px rgba(212, 175, 55, 0.12);
     }
 
     .server-box {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
     }
     .server-box:hover {
-      transform: translateY(-2px);
+      transform: scale(1.02);
+      box-shadow: 0 0 40px rgba(212, 175, 55, 0.35), 0 0 80px rgba(212, 175, 55, 0.12);
     }
 
     .flow-box {
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .flow-box:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.15);
+      transform: scale(1.06);
+      border-color: var(--gold);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.22);
     }
 
     .header::after {
@@ -502,7 +522,7 @@
 
     .step {
       animation: fadeInUp 0.4s ease-out backwards;
-      transition: transform 0.3s ease, border-color 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease;
     }
     .step:nth-child(1) { animation-delay: 0.0s; }
     .step:nth-child(2) { animation-delay: 0.1s; }
@@ -510,16 +530,21 @@
     .step:nth-child(4) { animation-delay: 0.3s; }
     .step:nth-child(5) { animation-delay: 0.4s; }
     .step:hover {
-      transform: translateX(4px);
+      transform: scale(1.03);
       border-color: var(--gold);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
     }
 
     .agent-table tr {
-      transition: background 0.2s ease;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .agent-table tbody tr:hover {
+      transform: scale(1.01);
+      background: rgba(212, 175, 55, 0.08);
     }
 
     .gap-fix-item {
-      transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.4s ease;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.2s ease, opacity 0.4s ease;
       animation: fadeIn 0.4s ease-out backwards;
     }
     .gap-fix-item:nth-child(1) { animation-delay: 0.0s; }
@@ -533,8 +558,9 @@
     .gap-fix-item:nth-child(9) { animation-delay: 0.4s; }
     .gap-fix-item:nth-child(10) { animation-delay: 0.45s; }
     .gap-fix-item:hover {
-      transform: translateX(3px);
-      border-color: var(--gold-muted);
+      transform: scale(1.04);
+      border-color: var(--gold);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.18);
     }
   }
 
