@@ -1,8 +1,11 @@
 {
-  "timeout": 10000,
+  "timeout": 15000,
   "retryOn429": true,
   "retryCount": 3,
   "fallbackPatterns": [
-    "^https://opencode.ai"
+    "^https://opencode.ai",
+    "^https://raw.githubusercontent.com",
+    "^https://github.com",
+    "^https://img.shields.io"
   ]
 }
