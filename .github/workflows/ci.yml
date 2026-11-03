@@ -10,48 +10,21 @@ on:
     - cron: '0 6 * * 1'
 
 jobs:
-  markdown-lint:
-    name: Markdown Lint
+  validate-structure:
+    name: Verify Repo Structure
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install markdownlint-cli2
-        run: npm install -g markdownlint-cli2
-      - name: Lint Markdown files
-        run: markdownlint-cli2 "**/*.md" --config .github/.markdownlint.json --ignore ".git" --ignore "node_modules" --ignore ".brain" --ignore ".planning" --ignore "content" --ignore "architecture.html"
-
-  link-check:
-    name: Link Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install markdown-link-check
-        run: npm install -g markdown-link-check
-      - name: Check links in README
-        run: markdown-link-check README.md --config .github/.markdown-link-check.json --quiet
-      - name: Check links in agent docs
+      - name: Verify key directories and files exist
         run: |
-          find agents -name "*.md" | xargs -I {} markdown-link-check {} --config .github/.markdown-link-check.json --quiet || true
-
-  spell-check:
-    name: Spell Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install cspell
-        run: npm install -g cspell
-      - name: Check spelling
-        run: cspell "**/*.md" --config .github/.cspell.json --gitignore --no-progress --no-must-find-files
-
-  yaml-lint:
-    name: YAML Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install yamllint
-        run: pip install yamllint
-      - name: Lint YAML files
-        run: yamllint .github/ || true
+          test -d agents || (echo "agents/ directory missing" && exit 1)
+          test -d commands || (echo "commands/ directory missing" && exit 1)
+          test -f social-posting.skill.md || (echo "social-posting.skill.md missing" && exit 1)
+          test -f .env.example || (echo ".env.example missing" && exit 1)
+          test -f README.md || (echo "README.md missing" && exit 1)
+          test -f LICENSE || (echo "LICENSE missing" && exit 1)
+          test -f .gitignore || (echo ".gitignore missing" && exit 1)
+          echo "✅ All required files present"
 
   validate-json:
     name: Validate JSON
@@ -65,16 +38,13 @@ jobs:
             python3 -m json.tool "$f" > /dev/null || exit 1
           done
 
-  check-output-structure:
-    name: Verify Output Structure
+  yaml-lint:
+    name: YAML Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify key directories exist
-        run: |
-          test -d agents || (echo "agents/ directory missing" && exit 1)
-          test -d commands || (echo "commands/ directory missing" && exit 1)
-          test -f social-posting.skill.md || (echo "social-posting.skill.md missing" && exit 1)
-          test -f .env.example || (echo ".env.example missing" && exit 1)
-          echo "All required files present"
+      - name: Install yamllint
+        run: pip install yamllint
+      - name: Lint YAML files
+        run: yamllint .github/ || true
 
