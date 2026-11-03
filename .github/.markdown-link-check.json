@@ -1,0 +1,8 @@
+{
+  "timeout": 10000,
+  "retryOn429": true,
+  "retryCount": 3,
+  "fallbackPatterns": [
+    "^https://opencode.ai"
+  ]
+}
