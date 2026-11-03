@@ -55,7 +55,7 @@
     "social-approve",
     "GITHUB_TOKEN",
     "OPENROUTER_API_KEY",
-    "node_modules",
+    "node-modules",
     "gitignore",
     "env",
     "example",
@@ -64,7 +64,11 @@
     "badge",
     "badges",
     "CI",
-    "PR"
+    "PR",
+    "opencode.ai",
+    "opensource.org",
+    "img.shields.io",
+    "raw.githubusercontent.com"
   ],
   "ignorePaths": [
     "node_modules",
@@ -73,6 +77,7 @@
     ".brain",
     ".planning",
     "architecture.html",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ]
 }
